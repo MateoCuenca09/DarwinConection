@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 from datetime import datetime, timedelta
+from unidecode import unidecode
 
 def mainPBI(datos):
     df = pd.DataFrame(datos)
@@ -342,12 +343,66 @@ def menu_OtrasConsultas(df):
         df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
         df.loc[filtro, 'Menu Secundario'] = 'Derivados'
         df.loc[filtro, 'Menu Terciario'] = 'Derivados'
+          
+        #### CLASIFICACION DE OTRAS CONSULTAS ####
+        # EXPENSAS
+        palabras_clave = [
+            'expensas',
+            'expensa',
+            'abonar expensa',
+            'abonar las expensa',
+            'adeuda de expensa',
+            'aumento de expensas',
+            'autogestión',
+            'autogestion expensas',
+            'bajar las expensas',
+            'cobrar las expensas',
+            'cobrar expensas',
+            'código electronico',
+            'cupon',
+            'cupon de expensas',
+            'cupón de pago',
+            'descargar las expensas',
+            'deuda de expensas',
+            'expensas anteriores',
+            'Expensa corriente',
+            'expensa inactiva',
+            'expensa vigente',
+            'ID',
+            'ID de expensa',
+            'ID expensa',
+            'importe de expensas',
+            'inactiva',
+            'libre deuda de expensas',
+            'mercado pago',
+            'numero de ID',
+            'pagar expensas',
+            'pagar las expensas',
+            'pago electronico',
+            'pago mis cuentas',
+            'tema de expensas',
+            'última expensa',
+            'últimas expensas',
+            'vencimiento'
+        ]
+        valor_asignar = 'Expensas'
 
-        ###### OTRAS CONSULTAS ######
+        buscar_palabras(df, palabras_clave, valor_asignar)
+
+
+
+
+
+
+
+
+        ###### ABANDONAN ######
         filtro = (df['page'] == 'Menu Principal - A1') & (df['message'] == '7') & (~df['idChat'].isin(idChats_otrasconsultas))
         df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
         df.loc[filtro, 'Menu Secundario'] = 'Abandonan'
         df.loc[filtro, 'Menu Terciario'] = 'Abandonan'
+
+      
 
     except Exception as e:
         print("Error menu_OtrasConsultas(): ",e)
@@ -571,3 +626,20 @@ def guardar_historico(df):
     except Exception as e:
         print("Error al indexar DF o guardar: ",e)
 
+def buscar_palabras(df, palabras_clave, valor_asignar):
+    try:
+        # Filtro
+        filtro = (df['page'] == 'Menu Otras Consultas') & (df['user'] != 'system')
+        # Normalizacion
+        lista_minusculas = [elemento.lower() for elemento in palabras_clave]
+        lista_sin_acentos = [unidecode(elemento) for elemento in lista_minusculas]
+
+        df.loc[filtro,"message"] = df["message"].apply(lambda x: unidecode(x.lower()))
+
+        # Iterar a través de cada fila del dfFrame
+        for index, row in df.loc[filtro].iterrows():
+            for palabra in lista_sin_acentos:
+                if palabra in row["message"]:
+                    df.at[index, "Otras Consultas"] = valor_asignar
+    except Exception as e:
+        print("Error buscar_palabras(): ",e)
