@@ -427,6 +427,7 @@ def menu_OtrasConsultas(df):
             'cesiones',
             'nuevo propietario',
         ]
+        
         valor_asignar = 'Cesiones'
         buscar_palabras(df, palabras_clave, valor_asignar)
 
