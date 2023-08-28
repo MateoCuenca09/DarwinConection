@@ -347,8 +347,6 @@ def menu_OtrasConsultas(df):
         #### CLASIFICACION DE OTRAS CONSULTAS ####
         # EXPENSAS
         palabras_clave = [
-            'expensas',
-            'expensa',
             'abonar expensa',
             'abonar las expensa',
             'adeuda de expensa',
@@ -387,6 +385,77 @@ def menu_OtrasConsultas(df):
         ]
         valor_asignar = 'Expensas'
 
+        buscar_palabras(df, palabras_clave, valor_asignar)
+
+        # INIC OBRA - AMOJONADO
+        palabras_clave = [
+            'acta de replanteo',
+            'acta de tenencia',
+            'amojonar',
+            'amojonado',
+            'amojonamiento',
+            'avance de la obra',
+            'avance de obra',
+            'cercado el lote',
+            'cercar el lote',
+            'comenzar una obra',
+            'comienzo de obra',
+            'comienzo la obra',
+            'conexión de luz',
+            'conexión provisoria',
+            'iniciar la obra',
+            'iniciar obra',
+            'iniciar una obra',
+            'inicio de obra',
+            'instructivo de obra',
+            'legajo de obra',
+            'nomenclatura',
+            'tareas preliminares',
+            'tareas previas',
+        ]
+        valor_asignar = 'Inic Obras'
+        buscar_palabras(df, palabras_clave, valor_asignar)
+
+        # CESION INMUEBLE
+        palabras_clave = [
+            'autorizacion de venta',
+            'autorizacion para ceder',
+            'cedente',
+            'ceder',
+            'cesion',
+            'cesionario',
+            'cesiones',
+            'nuevo propietario',
+        ]
+        valor_asignar = 'Cesiones'
+        buscar_palabras(df, palabras_clave, valor_asignar)
+
+        # SERVICIOS E IMPUESTOS
+        palabras_clave = [
+            'cuenta de rentas',
+            'cuentas de rentas',
+            'impuesto municipal',
+            'impuestos municipales',
+            'inmobiliario municipal',
+            'impuesto de rentas',
+            'impuestos de rentas',
+            'impuesto municipal',
+            'impuestos municipales',
+            'numero de identificacion',
+            'rentas',
+            'UF',
+            'uf aguas cordobesas',
+            'unidad de facturación',
+            'unidaddes de facturacion',
+        ]
+        valor_asignar = 'Servicios e Impuestos'
+        buscar_palabras(df, palabras_clave, valor_asignar)
+
+        # CONTACTOS UTILES
+        palabras_clave = [
+            'telefono del intendente'
+        ]
+        valor_asignar = 'Contactos Utiles'
         buscar_palabras(df, palabras_clave, valor_asignar)
 
 
