@@ -112,7 +112,7 @@ def menu_Expensas(df):
         filtro = df['message'].str.startswith("No pudimos encontrar un ID de expensa con esos datos.")
         df.loc[filtro, 'Menu Principal'] = 'Expensas'
         df.loc[filtro, 'Menu Secundario'] = 'ID Expensas'
-        df.loc[filtro, 'Menu Terciario'] = 'Derivados'
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
         df.loc[filtro, 'user'] = df['room']
 
 
@@ -151,7 +151,7 @@ def menu_Expensas(df):
         df_derivados = df.loc[filtro]
         idChats = df_derivados['idChat']
         filtro = (df['Menu Principal'] == 'Expensas') & (df['Menu Secundario'].notnull()) & (df['idChat'].isin(idChats)) & (df['Menu Terciario'].isnull())
-        df.loc[filtro, 'Menu Terciario'] = 'Derivados'
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
         
     except Exception as e:
         print("Error menu_Expensas(): ",e)
@@ -229,7 +229,7 @@ def menu_Obras(df):
         df_derivados = df.loc[filtro]
         idChats = df_derivados['idChat']
         filtro = (df['Menu Principal'] == 'Obras') & (df['Menu Secundario'].notnull()) & (df['idChat'].isin(idChats)) & (df['Menu Terciario'].isnull())
-        df.loc[filtro, 'Menu Terciario'] = 'Derivados'      
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'      
 
     except Exception as e:
         print("Error menu_Amojonado(): ",e)
@@ -245,7 +245,7 @@ def menu_Cesiones(df):
         df_derivados = df.loc[filtro]
         idChats = df_derivados['idChat']
         filtro =(df['idChat'].isin(idChats)) & (df['Menu Principal'] == 'Cesiones') & (df['Menu Secundario'] == 'Ceder') & (df['Menu Terciario'].isnull())
-        df.loc[filtro, 'Menu Terciario'] = 'Derivados'
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
 
 
         ###### INFORMAR ######
@@ -272,7 +272,7 @@ def menu_Servicios(df):
         idChats_servicios = df_servicios['idChat']
         filtro = (df['idChat'].isin(idChats_servicios)) & (df['Menu Principal'] == 'Servicios e Impuestos' )
         df.loc[filtro, 'Menu Secundario'] = 'UF Aguas Cordobesas'  
-        df.loc[filtro, 'Menu Terciario'] = 'Derivados'
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
 
 
         ###### IMP POLICIAL ######
@@ -281,7 +281,7 @@ def menu_Servicios(df):
         idChats_servicios = df_servicios['idChat']
         filtro = (df['idChat'].isin(idChats_servicios)) & (df['Menu Principal'] == 'Servicios e Impuestos' )
         df.loc[filtro, 'Menu Secundario'] = 'Imp. Pcial.'
-        df.loc[filtro, 'Menu Terciario'] = 'Derivados'
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
 
         
         ###### IMP MUNICIPAL ######
@@ -290,7 +290,7 @@ def menu_Servicios(df):
         idChats_servicios = df_servicios['idChat']
         filtro = (df['idChat'].isin(idChats_servicios)) & (df['Menu Principal'] == 'Servicios e Impuestos' )
         df.loc[filtro, 'Menu Secundario'] = 'Imp. Municipal' 
-        df.loc[filtro, 'Menu Terciario'] = 'Derivados' 
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot' 
 
         ###### VOLVER ######
         filtro = (df['page'] == 'Botonera Tipo Servicio - F5') & (df['message'] == '0')
@@ -341,8 +341,8 @@ def menu_OtrasConsultas(df):
         df_otrasconsultas = df.loc[filtro]
         idChats_otrasconsultas = df_otrasconsultas['idChat']
         df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
-        df.loc[filtro, 'Menu Secundario'] = 'Derivados'
-        df.loc[filtro, 'Menu Terciario'] = 'Derivados'
+        df.loc[filtro, 'Menu Secundario'] = 'Derivados Bot'
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
           
         #### CLASIFICACION DE OTRAS CONSULTAS ####
         # EXPENSAS
@@ -351,22 +351,21 @@ def menu_OtrasConsultas(df):
             'abonar las expensa',
             'adeuda de expensa',
             'aumento de expensas',
-            'autogestión',
+            'autogestion',
             'autogestion expensas',
             'bajar las expensas',
             'cobrar las expensas',
             'cobrar expensas',
-            'código electronico',
+            'codigo electronico',
             'cupon',
             'cupon de expensas',
-            'cupón de pago',
+            'cupon de pago',
             'descargar las expensas',
             'deuda de expensas',
             'expensas anteriores',
             'Expensa corriente',
             'expensa inactiva',
             'expensa vigente',
-            'ID',
             'ID de expensa',
             'ID expensa',
             'importe de expensas',
@@ -379,9 +378,9 @@ def menu_OtrasConsultas(df):
             'pago electronico',
             'pago mis cuentas',
             'tema de expensas',
-            'última expensa',
-            'últimas expensas',
-            'vencimiento'
+            'ultima expensa',
+            'ultimas expensas',
+            'vencimiento',
         ]
         valor_asignar = 'Expensas'
 
@@ -579,7 +578,7 @@ def perdidos(df):
         idChats_todos = df_idChats['idChat']
         # Los que tienen el 3er Menu Vacio
         filtro = (df['idChat'].isin(idChats_todos)) & (df['Menu Secundario'].notnull()) & (df['Menu Terciario'].isnull()) 
-        df.loc[filtro,'Menu Terciario'] = 'Confundidos Derivados'
+        df.loc[filtro,'Menu Terciario'] = 'Derivados Error'
 
         # Los que tienen el 2do Menu Vacio
         df_idChats_confundidos3 = df[filtro]
@@ -587,8 +586,8 @@ def perdidos(df):
         df_idChats_sobra3 = df_idChats[~df_idChats['idChat'].isin(idChats_confundidos3)] # 2do = Todos - 3ro
         idChats_sobra3 = df_idChats_sobra3['idChat']
         filtro = (df['idChat'].isin(idChats_sobra3)) & (df['Menu Principal'].notnull()) & (df['Menu Secundario'].isnull()) # Solo los que tienen 2do Vacio
-        df.loc[filtro,'Menu Secundario'] = 'Confundidos Derivados'
-        df.loc[filtro,'Menu Terciario'] = 'Confundidos Derivados'
+        df.loc[filtro,'Menu Secundario'] = 'Derivados Error'
+        df.loc[filtro,'Menu Terciario'] = 'Derivados Error'
 
         df_idChats_confundidos2 = df[filtro] 
         idChats_confundidos2 = df_idChats_confundidos2['idChat'] # 2do Vacio
@@ -596,9 +595,9 @@ def perdidos(df):
         idChats_confundidos1 = df_idChats_confundidos1['idChat']
         filtro = (df['idChat'].isin(idChats_confundidos1)) & (df['message'].str.endswith("¡No te preocupes! Te derivo con un asesor…"))
         df.loc[filtro,'user'] = df['room']
-        df.loc[filtro,'Menu Principal'] = 'Confundidos Derivados'
-        df.loc[filtro,'Menu Secundario'] = 'Confundidos Derivados'
-        df.loc[filtro,'Menu Terciario'] = 'Confundidos Derivados'
+        df.loc[filtro,'Menu Principal'] = 'Derivados Error'
+        df.loc[filtro,'Menu Secundario'] = 'Derivados Error'
+        df.loc[filtro,'Menu Terciario'] = 'Derivados Error'
 
 
 
@@ -649,31 +648,33 @@ def no_ingresan(df):
     except Exception as e:
         print("Error no_ingresan(): ",e)
 
+import os
+import pandas as pd
+
 def separar_por_mes(dataframe):
-    try:        
+    try:
         # Obtener la columna del mes
         dataframe['Mes'] = dataframe['date'].dt.strftime('%Y-%m')
-        
-        # Obtener el mes más nuevo o actual
-        mes_actual = dataframe['Mes'].max()
-        
-        # Filtrar el DataFrame para obtener solo el mes más nuevo o actual
-        df_mes_actual = dataframe[dataframe['Mes'] == mes_actual].copy()
-        
+
+        # Obtener los dos meses más nuevos o actuales
+        meses_actuales = dataframe['Mes'].nlargest(2)
+
+        # Filtrar el DataFrame para obtener solo los dos meses más nuevos o actuales
+        df_meses_actuales = dataframe[dataframe['Mes'].isin(meses_actuales)].copy()
+
         # Guardar cada DataFrame separado por mes en un archivo Excel
-        for mes, df_mes in dataframe.groupby('Mes'):
-            if mes != mes_actual:
-                nombre_archivo = mes + '.xlsx'
-                carpeta_guardado = 'C:\\Users\\cuenc\\OneDrive - EDISUR SA\\Mateo Cuenca\\DarwinConection\\PBI prueba'
-                ruta_archivo = os.path.join(carpeta_guardado, nombre_archivo)
-                df_mes.to_excel(ruta_archivo, index=False)
-                print(f"El DataFrame para el mes {mes} ha sido guardado en {nombre_archivo}")
+        for mes, df_mes in df_meses_actuales.groupby('Mes'):
+            nombre_archivo = mes + '.xlsx'
+            carpeta_guardado = 'C:\\Users\\cuenc\\OneDrive - EDISUR SA\\Mateo Cuenca\\DarwinConection\\PBI prueba'
+            ruta_archivo = os.path.join(carpeta_guardado, nombre_archivo)
+            df_mes.to_excel(ruta_archivo, index=False)
+            print(f"El DataFrame para el mes {mes} ha sido guardado en {nombre_archivo}")
 
-        df_mes_actual.drop('Mes', axis=1, inplace=True)
+        df_meses_actuales.drop('Mes', axis=1, inplace=True)
 
-        return df_mes_actual
+        return df_meses_actuales
     except Exception as e:
-        print("Error separar_por_mes(): ",e)
+        print("Error separar_por_mes(): ", e)
 
 def guardar_historico(df):
     try:
@@ -686,15 +687,16 @@ def guardar_historico(df):
         df_historico = pd.DataFrame()
 
     try:
-        df_historico_nuevo = pd.concat( [df_historico,df], ignore_index=True)
+        df_historico_nuevo = pd.concat([df_historico, df], ignore_index=True)
         if historico:
             df_historico_nuevo['date'] = pd.to_datetime(df_historico_nuevo['date'])
-            df_historico_nuevo.sort_values('date')
-            df_historico_nuevo = df_historico_nuevo.drop_duplicates(ignore_index=True, keep= 'first', subset='_id')
-            df_historico_nuevo = separar_por_mes(df_historico_nuevo)
+            df_historico_nuevo = df_historico_nuevo.sort_values('date')  # Agregamos 'inplace=True' para aplicar el orden directamente
+            df_historico_nuevo = df_historico_nuevo.drop_duplicates(ignore_index=True, keep='first', subset='_id')
+            separar_por_mes(df_historico_nuevo)  # Cambiamos esta línea para llamar a la función sin asignación
         df_historico_nuevo.to_excel("C:\\Users\\cuenc\\OneDrive - EDISUR SA\\Mateo Cuenca\\DarwinConection\\PBI prueba\\Historico.xlsx", index=False)
     except Exception as e:
-        print("Error al indexar DF o guardar: ",e)
+        print("Error al indexar DF o guardar: ", e)
+
 
 def buscar_palabras(df, palabras_clave, valor_asignar):
     try:

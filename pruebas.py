@@ -15,7 +15,7 @@ token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOiJlZGlzdXIiLCJyb3V0ZX
 endDate = datetime.now().strftime("%Y/%m/%d")
 
 # Obtener la fecha de 7 días atrás
-startDate = (datetime.now() - timedelta(days=7)).strftime("%Y/%m/%d")
+startDate = (datetime.now() - timedelta(days=44)).strftime("%Y/%m/%d")
 
 datos = descargar_datos_desde_api(url_api, token, startDate, endDate)
 
