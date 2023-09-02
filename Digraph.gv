@@ -1,9 +1,0 @@
-digraph {
-	A [label="Menú Principal"]
-	B [label="Opción 1"]
-	C [label="Opción 2"]
-	D [label="Opción 3"]
-	A -> B
-	A -> C
-	A -> D
-}
