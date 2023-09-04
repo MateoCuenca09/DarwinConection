@@ -14,7 +14,7 @@ Lo mejor de todo es que este proceso se ejecuta de forma automática todos los d
 
 ## Acerca del Proyecto
 
-Explica de qué se trata tu proyecto, su propósito y por qué es relevante o útil. Puedes agregar algunos detalles sobre las tecnologías que utilizaste.
+Este proyecto esta programado en Python 3 y utiliza esencialmente la libreria Pandas (v.1.5.3), corre en Windows 10 y la version instalada en el server debe contar con acceso a las carpetas donde se quiera guardar el archivo Historico.xlsx y el TableroDarwin.pbix
 
 ## Capturas de Pantalla
 
