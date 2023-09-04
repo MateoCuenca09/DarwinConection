@@ -36,8 +36,12 @@ Por las dudas que falle, aqui dejo las versiones de las librerias que yo utilice
 
 ## Manual de Usuario
 
-- *Carga de Datos*: El programa actualmente descarga los datos automáticamente todos los días Viernes a las 20hs, según la API brindada por la empresa.
+- *Carga de Datos*: El programa descarga los datos automáticamente todos los días a las 20hs, mediante la API brindada por la empresa de Darwin.
  
-- Visualización de Datos POWER BI: El programa también genera un excel en la carpeta “O:\Gestion y Experiencia del Cliente\5. SERVICIO DE ATENCIÓN AL CLIENTE\11. TRANSFORMACIÓN DIGITAL\ReportesDarwin\PBI” con el nombre de Historico.xlsx que es la tabla de datos que toma el archivo TableroDarwin.pbix. Esta tabla es acumulativa por mes, cuando se acaba el mes corriente deja asentado los datos en un archivo con el nombre del mes y en el archivo Historico.xlsx queda el nuevo mes corriente.
-4- POWER BI: El archivo queda publicado online la primera vez, luego si es solicitado o querido se puede actualizar el online dando click al botón de publicar que se encuentra en la barra superior en el extremo derecho. Que se encuentre online permite que lo vean distintas personas sin problemas.
+- *Visualización de Datos POWER BI*: El programa genera un excel en la carpeta “O:\Gestion y Experiencia del Cliente\5. SERVICIO DE ATENCIÓN AL CLIENTE\11. TRANSFORMACIÓN DIGITAL\ReportesDarwin\PBI” con el nombre de Historico.xlsx que es la tabla de datos que toma el archivo TableroDarwin.pbix. Esta tabla es acumulativa por dos meses, cuando un dato supera este tiempo es guardado en un archivo aparte junto con los archivos cercanos a el en un plazo de dos meses, con el nombre de los meses correspondientes.
+  
+- *POWER BI*: Cada vez que se quiera ver datos nuevos, se debe actualizar el tablero pulsando el boton 'actualizar' que se encuentra el la barra horizontal superior. El archivo queda publicado online la primera vez, luego si es solicitado o querido se puede actualizar el online dando click al botón de publicar que se encuentra en la barra superior en el extremo derecho. Que se encuentre online permite que lo vean distintas personas sin problemas.
 
+### Categoria de Datos
+Para entender las clasificaciones de los clientes en el menu, primero se debe entender el siguiente flujo del menu de Darwin:
+ 
