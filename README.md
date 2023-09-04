@@ -44,4 +44,6 @@ Por las dudas que falle, aqui dejo las versiones de las librerias que yo utilice
 
 ### Categoria de Datos
 Para entender las clasificaciones de los clientes en el menu, primero se debe entender el siguiente flujo del menu de Darwin:
+![Texto alternativo](DarwinConection\Flujo_menu.jpg)
+
  
