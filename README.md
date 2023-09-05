@@ -54,18 +54,18 @@ Luego tambien tenemos que tener en cuenta que los numeros que se veran naturalme
 - ***Pestaña Principal:***
   - **Menu Principal:** Es un recuento de la primera opcion del menu elegida por el cliente, una vez ingresado a este.
   - **Menu Secundario:** Es un recuento de la segunda opcion del menu elegida por el cliente, una vez ingresado una opcion correcta en el menu principal.
-  - **Modalidades de Finalizacion del Bot:** Aqui vemos como finalizaron la conversacion con las siguientes opciones.
+  - **Modalidades de Finalizacion del Bot:** Aqui vemos como finalizaron la conversacion con las siguientes opciones:
     - *Derivados Bot:* Son los que siguieron un flujo natural del menu y fueron derivados.
     - *Resueltos x Sistema:* Son los que siguieron un flujo natural del menu y fueron resueltos por sistema.
     - *Abandonan:* Son los que no terminaron un flujo ya que dejaron de responderle al bot.
     - *Derivados Error:* Son los que enviaron tres opciones erroneas seguidas y por lo tanto fueron derivados.
 
-- Pestaña Totales:
-  - Inicios de Conversacion:
-  - Ingresos al Menu Principal:
-  - Ingresos Fallidos:
-  - Cantidad de Usuarios:
-  - Usuarios Recurrentes:
+- ***Pestaña Totales:***
+  - **Inicios de Conversacion:** Es un recuento de la cantidad de conversaciones iniciadas en el bot.
+  - **Ingresos al Menu Principal:** Es un recuento de la cantidad de conversaciones que llegan al Menu Principal.
+  - **Ingresos Fallidos:** Es un recuento de la cantidad de conversacione que no llegaron al Menu Principal.
+  - **Cantidad de Usuarios:** Es un recuento de la cantidad de usuarios que iniciaron una conversacion en el bot.
+  - **Usuarios Recurrentes:** Es un recuento de la cantidad de inicios de conversacion que tuvo cada usuario.
 
 - Pestaña FeedBack:
   - Encuesta Reclamo:
