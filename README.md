@@ -51,14 +51,14 @@ Para entender las clasificaciones de los clientes en el menu, primero se debe en
 ![Texto alternativo](Flujo_menu.png)
 Luego tambien tenemos que tener en cuenta que los numeros que se veran naturalmente son un recuento por conversacion, no por cliente.
 
-- Pestaña Principal:
-  - *Menu Principal:* Es un recuento de la primera opcion del menu elegida por el cliente, una vez ingresado a este.
-  - *Menu Secundario:* Es un recuento de la segunda opcion del menu elegida por el cliente, una vez ingresado una opcion correcta en el menu principal.
+- ***Pestaña Principal:***
+  - **Menu Principal:** Es un recuento de la primera opcion del menu elegida por el cliente, una vez ingresado a este.
+  - **Menu Secundario:** Es un recuento de la segunda opcion del menu elegida por el cliente, una vez ingresado una opcion correcta en el menu principal.
   - **Modalidades de Finalizacion del Bot:** Aqui vemos como finalizaron la conversacion con las siguientes opciones.
-    - Derivados Bot:
-    - Resueltos x Sistema:
-    - Abandonan:
-    - Derivados Error:
+    - *Derivados Bot:* Son los que siguieron un flujo natural del menu y fueron derivados.
+    - *Resueltos x Sistema:* Son los que siguieron un flujo natural del menu y fueron resueltos por sistema.
+    - *Abandonan:* Son los que no terminaron un flujo ya que dejaron de responderle al bot.
+    - *Derivados Error:* Son los que enviaron tres opciones erroneas seguidas y por lo tanto fueron derivados.
 
 - Pestaña Totales:
   - Inicios de Conversacion:
