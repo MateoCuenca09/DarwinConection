@@ -67,13 +67,13 @@ Luego tambien tenemos que tener en cuenta que los numeros que se veran naturalme
   - **Cantidad de Usuarios:** Es un recuento de la cantidad de usuarios que iniciaron una conversacion en el bot.
   - **Usuarios Recurrentes:** Es un recuento de la cantidad de inicios de conversacion que tuvo cada usuario.
 
-- Pestaña FeedBack:
-  - Encuesta Reclamo:
-  - Encuesta Satisfaccion:
-  - Usuarios:
+- ***Pestaña FeedBack:***
+  - **Encuesta Reclamo:** Se refiere a la encuesta que se hace una vez terminado algun flujo del menu donde se consulta si su reclamo fue resuelto.
+  - **Encuesta Satisfaccion:** Se refiere a la encuesta que se hace una vez respondido que si en la Encuesta Reclamo, donde se pregunta cual fue la satisfaccion del cliente.
+  - **Usuarios:** Es un recuento de encuestas hechas por cada usuario.
 
-- Pestaña Otras Consultas:
-  - Cantidad de Otras Consultas:
-  - Clasificacion de Otras Consultas:
-  - Mensajes:
+- ***Pestaña Otras Consultas:***
+  - **Cantidad de Otras Consultas:** Recuento de Otras Consultas que fueron realizadas.
+  - **Clasificacion de Otras Consultas:** Es una clasificacion de las Otras Consultas realizadas segun filtros de palabras clave.
+  - **Mensajes:** Aqui se muestran puntualmente las otras consultas realizadas y el usuario que las realizo.
   
