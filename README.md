@@ -51,9 +51,9 @@ Para entender las clasificaciones de los clientes en el menu, primero se debe en
 ![Texto alternativo](Flujo_menu.png)
 
 - Pestaña Principal:
-    -Menu Principal:
-    -Menu Secundario:
-    -Modalidades de Finalizacion del Bot:
+  - Menu Principal:
+  - Menu Secundario:
+  - Modalidades de Finalizacion del Bot:
 
 - Pestaña Totales:
   - Inicios de Conversacion:
