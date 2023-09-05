@@ -49,11 +49,16 @@ Por las dudas que falle, aqui dejo las versiones de las librerias que yo utilice
 
 Para entender las clasificaciones de los clientes en el menu, primero se debe entender el siguiente flujo del menu de Darwin:
 ![Texto alternativo](Flujo_menu.png)
+Luego tambien tenemos que tener en cuenta que los numeros que se veran naturalmente son un recuento por conversacion, no por cliente.
 
 - Pestaña Principal:
-  - Menu Principal:
-  - Menu Secundario:
-  - Modalidades de Finalizacion del Bot:
+  - Menu Principal: Es un recuento de la primera opcion del menu elegida por el cliente, una vez ingresado a este.
+  - Menu Secundario: Es un recuento de la segunda opcion del menu elegida por el cliente, una vez ingresado una opcion correcta en el menu principal.
+  - Modalidades de Finalizacion del Bot: Aqui vemos como finalizaron la conversacion con las siguientes opciones.
+    - Derivados Bot:
+    - Resueltos x Sistema:
+    - Abandonan:
+    - Derivados Error:
 
 - Pestaña Totales:
   - Inicios de Conversacion:
