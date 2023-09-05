@@ -441,7 +441,7 @@ def menu_OtrasConsultas(df):
 
         buscar_palabras(df, palabras_clave, valor_asignar)
 
-        # INIC OBRA - AMOJONADO
+        # INICIO OBRA - AMOJONADO
         palabras_clave = [
             'acta de replanteo',
             'acta de tenencia',
@@ -467,7 +467,7 @@ def menu_OtrasConsultas(df):
             'tareas preliminares',
             'tareas previas',
         ]
-        valor_asignar = 'Inic Obras'
+        valor_asignar = 'Inicio Obras'
         buscar_palabras(df, palabras_clave, valor_asignar)
 
         # CESION INMUEBLE
