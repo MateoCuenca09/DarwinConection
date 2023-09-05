@@ -5,11 +5,12 @@ Lo mejor de todo es que este proceso se ejecuta de forma automática todos los d
 
 ## Tabla de Contenidos
 
-- [Acerca del Proyecto](#acerca-del-proyecto)
-- [Instalación](#instalación)
-- [Manual de Usuario](#Manual-de-Usuario)
-- [Contribuciones](#contribuciones)
-- [Licencia](#licencia)
+- [Darwin Conection](#darwin-conection)
+  - [Tabla de Contenidos](#tabla-de-contenidos)
+  - [Acerca del Proyecto](#acerca-del-proyecto)
+  - [Instalación](#instalación)
+  - [Manual de Usuario](#manual-de-usuario)
+    - [Categoria de Datos](#categoria-de-datos)
 
 ## Acerca del Proyecto
 
@@ -44,6 +45,4 @@ Por las dudas que falle, aqui dejo las versiones de las librerias que yo utilice
 
 ### Categoria de Datos
 Para entender las clasificaciones de los clientes en el menu, primero se debe entender el siguiente flujo del menu de Darwin:
-![Texto alternativo](Flujo_menu.jpg)
-
- 
+![Texto alternativo](Flujo_menu.png)
