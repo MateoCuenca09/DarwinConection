@@ -29,7 +29,7 @@ def mainPBI(datos):
     no_ingresan(df)
 
     #df = df[df['user'] != 'system'] # Mantener solo los mensajes de clientes
-    df = df.drop(['type','channel','darwinChatID','page','__v','intent','endpoint','username','isLogin','typeClose'], axis=1) # Quitamos datos inecesarios
+    df = df.drop(['type','channel','darwinChatID','page','__v','intent','endpoint','typeClose'], axis=1) # Quitamos datos inecesarios
 
 
     guardar_historico(df)
@@ -401,20 +401,20 @@ def menu_OtrasConsultas(df):
           
         #### CLASIFICACION DE OTRAS CONSULTAS ####
         # EXPENSAS
-        palabras_clave = [
+        key_expensas = [
             'abonar expensa',
             'abonar las expensa',
             'adeuda de expensa',
             'aumento de expensas',
-            'autogestion',
+            'autogestión',
             'autogestion expensas',
             'bajar las expensas',
             'cobrar las expensas',
             'cobrar expensas',
-            'codigo electronico',
+            'código electronico',
             'cupon',
             'cupon de expensas',
-            'cupon de pago',
+            'cupón de pago',
             'descargar las expensas',
             'deuda de expensas',
             'expensas anteriores',
@@ -433,16 +433,16 @@ def menu_OtrasConsultas(df):
             'pago electronico',
             'pago mis cuentas',
             'tema de expensas',
-            'ultima expensa',
-            'ultimas expensas',
-            'vencimiento',
+            'última expensa',
+            'últimas expensas',
+            'vencimiento'
         ]
         valor_asignar = 'Expensas'
 
-        buscar_palabras(df, palabras_clave, valor_asignar)
+        buscar_palabras(df, key_expensas, valor_asignar)
 
         # INICIO OBRA - AMOJONADO
-        palabras_clave = [
+        key_obras = [
             'acta de replanteo',
             'acta de tenencia',
             'amojonar',
@@ -466,12 +466,40 @@ def menu_OtrasConsultas(df):
             'nomenclatura',
             'tareas preliminares',
             'tareas previas',
+            'acometida',
+            'acometida de luz',
+            'acometidas',
+            'alta de servicio',
+            'cloaca',
+            'cloacas',
+            'conexión de epec',
+            'conexión de la luz',
+            'conexión epec',
+            'conexiones',
+            'construir',
+            'ecogas',
+            'energía eléctrica',
+            'epec',
+            'firma',
+            'firma de boleto',
+            'gas natural',
+            'inicio obra',
+            'PCT',
+            'PIG',
+            'pilar',
+            'pilares',
+            'plano',
+            'planos',
+            'posesion',
+            'posesiones',
+            'pozo'
+
         ]
         valor_asignar = 'Inicio Obras'
-        buscar_palabras(df, palabras_clave, valor_asignar)
+        buscar_palabras(df, key_obras, valor_asignar)
 
         # CESION INMUEBLE
-        palabras_clave = [
+        key_cesiones = [
             'autorizacion de venta',
             'autorizacion para ceder',
             'cedente',
@@ -483,10 +511,10 @@ def menu_OtrasConsultas(df):
         ]
         
         valor_asignar = 'Cesiones'
-        buscar_palabras(df, palabras_clave, valor_asignar)
+        buscar_palabras(df, key_cesiones, valor_asignar)
 
         # SERVICIOS E IMPUESTOS
-        palabras_clave = [
+        key_servicios = [
             'cuenta de rentas',
             'cuentas de rentas',
             'impuesto municipal',
@@ -498,20 +526,61 @@ def menu_OtrasConsultas(df):
             'impuestos municipales',
             'numero de identificacion',
             'rentas',
-            'UF',
             'uf aguas cordobesas',
             'unidad de facturación',
             'unidaddes de facturacion',
         ]
         valor_asignar = 'Servicios e Impuestos'
-        buscar_palabras(df, palabras_clave, valor_asignar)
+        buscar_palabras(df, key_servicios, valor_asignar)
 
         # CONTACTOS UTILES
-        palabras_clave = [
+        key_contactos = [
             'telefono del intendente'
         ]
         valor_asignar = 'Contactos Utiles'
-        buscar_palabras(df, palabras_clave, valor_asignar)
+        buscar_palabras(df, key_contactos, valor_asignar)
+
+        # POSVENTA
+        key_posventa = [
+            'abertura',
+            'aire',
+            'aire acondicionado',
+            'balcón',
+            'caldera',
+            'calefacción',
+            'cocina',
+            'electrodomestico',
+            'electrodomesticos',
+            'fisura',
+            'horno',
+            'humedad',
+            'hundimiento',
+            'lámpara',
+            'lavarropas',
+            'llave',
+            'llave de paso',
+            'mancha',
+            'pared',
+            'pintura',
+            'portero',
+            'portero eléctrico',
+            'puerta',
+            'quemada',
+            'quemado',
+            'quemados',
+            'radiadores',
+            'rajadura',
+            'secador',
+            'solar',
+            'tanque',
+            'techo',
+            'timbre',
+            'velas',
+            'ventana'
+        ]
+        valor_asignar = 'Posventa'
+        buscar_palabras(df, key_posventa, valor_asignar)
+
 
         ###### ABANDONAN ######
         filtro = (df['page'] == 'Menu Principal - A1') & (df['message'] == '7') & (~df['idChat'].isin(idChats_otrasconsultas))
