@@ -503,7 +503,7 @@ def menu_OtrasConsultas(df):
             'autorizacion de venta',
             'autorizacion para ceder',
             'cedente',
-            'ceder',
+            ' ceder',
             'cesion',
             'cesionario',
             'cesiones',
