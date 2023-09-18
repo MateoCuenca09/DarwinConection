@@ -14,11 +14,11 @@ def main():
     - Empty
     """
     try:
-        # URL de la API de DARWIN
-        url_api = "https://api.testing.botdarwin.com/data/conversations"
+        # URL de la API que deseas conectar
+        url_api = "https://api.botdarwin.com/data/conversations"
 
         # Token de autenticación requerido por la API
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOiJlZGlzdXIiLCJyb3V0ZXMiOlsiL2FnZW50cyIsIi9pbnRlbnRzIiwiL2RhdGEiXSwiaWF0IjoxNjg2OTM3Nzc4fQ.F9Zdk2F50azIsgubt_HMMaQ5X20V-Iaw3UuJmcm27Qc"
+        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOiJlZGlzdXIiLCJyb3V0ZXMiOlsiL2FnZW50cyIsIi9pbnRlbnRzIiwiL2RhdGEiXSwiaWF0IjoxNjg5Nzk1MDk1fQ.Iv4iye5d0uLJz2kTOu9GoEFGGtQGtGCyh-tn0EGCbP8"
 
         # Obtener la fecha actual
         endDate = datetime.now().strftime("%Y/%m/%d")
