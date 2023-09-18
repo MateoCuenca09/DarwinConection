@@ -423,6 +423,7 @@ def menu_OtrasConsultas(df):
             'expensa vigente',
             'ID de expensa',
             'ID expensa',
+            ' ID ',
             'importe de expensas',
             'inactiva',
             'libre deuda de expensas',
