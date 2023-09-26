@@ -417,6 +417,9 @@ def menu_OtrasConsultas(df):
             'cupón de pago',
             'descargar las expensas',
             'deuda de expensas',
+            'desmalezado',
+            'expensas',
+            'expensa',
             'expensas anteriores',
             'Expensa corriente',
             'expensa inactiva',
@@ -493,8 +496,40 @@ def menu_OtrasConsultas(df):
             'planos',
             'posesion',
             'posesiones',
-            'pozo'
-
+            'pozo',
+            'pedir la luz',
+            'firmar',
+            'boleto de venta',
+            'preensamblado',
+            'ensamblado',
+            'lote esquina',
+            'doble frente',
+            'plancheta catastral',
+            'obra gas',
+            'normativa de edificacion',
+            'terminada la obra',
+            'conexión electrica',
+            'conexiones electricas',
+            'conectar la luz',
+            'factibilidad de gas',
+            'factibilidad',
+            'especies',
+            'permiso de obra',
+            'dimensiones del terreno',
+            'dimensiones del lote',
+            'colindantes',
+            'avance del servicio',
+            'energia electrica definitiva',
+            'cerramiento',
+            'obrador',
+            'baño quimico',
+            'acopio de materiales',
+            'anexo I y II',
+            'anexo i y ii ',
+            'certificado de amojonado',
+            'certificado de amojonamiento',
+            'conexión de servicio eléctrico',
+            'red electrica',
         ]
         valor_asignar = 'Inicio Obras'
         buscar_palabras(df, key_obras, valor_asignar)
@@ -577,11 +612,40 @@ def menu_OtrasConsultas(df):
             'techo',
             'timbre',
             'velas',
-            'ventana'
+            'ventana',
+            'pileta de inspección',
+            'techo del balcón',
+            'roturas de durlock',
+            'problemas estructurales',
+            'durlock',
+            'cañeria',
+            'pierde',
+            'piso de arriba',
+            'lavatorio',
+            'muebles',
+            'artefactos',
+            'machimbre',
+            'cielorraso',
+            'galeria',
+            'cielo raso',
+            'actividades de visitas',
+            'visitar el inmueble',
+            'numeracion',
         ]
         valor_asignar = 'Posventa'
         buscar_palabras(df, key_posventa, valor_asignar)
 
+        # Administracion
+        key_admini = [
+            'tarjeta de ingreso',
+            'reglamento de edificio',
+            'reserva de sum',
+            'alambrado perimetral',
+            'alambrado',
+            'asadores',
+        ]
+        valor_asignar = 'Administración'
+        buscar_palabras(df, key_admini, valor_asignar)
 
         ###### ABANDONAN ######
         filtro = (df['page'] == 'Menu Principal - A1') & (df['message'] == '7') & (~df['idChat'].isin(idChats_otrasconsultas))
