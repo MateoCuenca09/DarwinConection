@@ -2,7 +2,7 @@ import pandas as pd
 import os
 from datetime import datetime, timedelta
 from unidecode import unidecode
-from guardar import guardar_historico
+from MIguardar import guardar_historico
 
 def mainPBI(datos):
     """
@@ -392,6 +392,40 @@ def menu_OtrasConsultas(df):
     - df: Dataframe con todos los datos 
     """
     try:
+                        ###### MENU OTRAS CONSULTAS ###### 
+        filtro = (df['page'] == 'Menu Otras Consultas') & (df['user'] != 'system')
+        df_otrasconsultas = df.loc[filtro]
+        idChats_otrasconsultas = df_otrasconsultas['idChat']
+        df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
+        df.loc[filtro, 'Menu Secundario'] = 'Derivados Bot'
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
+
+                        ###### ABANDONAN ######
+        filtro = (df['page'] == 'Menu Principal - A1') & (df['message'] == '7') & (~df['idChat'].isin(idChats_otrasconsultas))
+        df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
+        df.loc[filtro, 'Menu Secundario'] = 'Abandonan'
+        df.loc[filtro, 'Menu Terciario'] = 'Abandonan'    
+
+                        ###### FILTRO PALABRAS ######
+        # Especifica la ruta de tu archivo Excel con Palabras Clave 
+        archivo_excel = 'O:/Gestion y Experiencia del Cliente/5. SERVICIO DE ATENCIÓN AL CLIENTE/11. TRANSFORMACIÓN DIGITAL/Excel - Otras Consultas/Excel Darwin - PBI - Automatico.xlsx'
+        ""'O:/Gestion y Experiencia del Cliente/5. SERVICIO DE ATENCIÓN AL CLIENTE/11. TRANSFORMACIÓN DIGITAL/Excel - Otras Consultas/Excel Darwin - PBI - Automatico.xlsx'""
+        ""'C:/Users/cuenc/OneDrive - EDISUR SA/Mateo Cuenca/DarwinConection/.ignore/Excel Darwin - PBI - V3.xlsx'""
+
+        # Lee todas las hojas del archivo Excel en un diccionario de DataFrames
+        dataframes_por_hoja = pd.read_excel(archivo_excel, sheet_name=None, engine='openpyxl')
+        # Itera a través de las hojas
+        for hoja, dataframe in dataframes_por_hoja.items():
+            if not dataframe.empty:
+                primera_columna = dataframe.iloc[1:, 1].to_numpy()  # Selecciona la segunda columna
+                buscar_palabras(df, primera_columna, hoja) 
+                print(f'Hoja: {hoja}') # Hojas detectadas
+
+
+
+    except Exception as e:
+        print("Error levantar palabras menu_OtrasConsultas()")
+
         filtro = (df['page'] == 'Menu Otras Consultas') & (df['user'] != 'system')
         df_otrasconsultas = df.loc[filtro]
         idChats_otrasconsultas = df_otrasconsultas['idChat']
@@ -653,11 +687,6 @@ def menu_OtrasConsultas(df):
         df.loc[filtro, 'Menu Secundario'] = 'Abandonan'
         df.loc[filtro, 'Menu Terciario'] = 'Abandonan'
 
-      
-
-    except Exception as e:
-        print("Error menu_OtrasConsultas(): ",e)
-
 
 def reclamo(df):
     """
@@ -867,16 +896,26 @@ def buscar_palabras(df, palabras_clave, valor_asignar):
     try:
         # Filtro
         filtro = (df['page'] == 'Menu Otras Consultas') & (df['user'] != 'system')
-        # Normalizacion
+
+        # Crear una copia temporal de la columna 'message' para aplicar las modificaciones
+        df['message_temp'] = df.loc[filtro, 'message'].apply(lambda x: unidecode(x.lower()).replace('.', ' ').replace(',', ' ').replace(';', ' '))
+
+
+        # Normalizacion de la lista de palabras
         lista_minusculas = [elemento.lower() for elemento in palabras_clave]
         lista_sin_acentos = [unidecode(elemento) for elemento in lista_minusculas]
+        lista_esp = [' ' + elemento + ' ' for elemento in lista_sin_acentos]
 
-        df.loc[filtro,"message"] = df["message"].apply(lambda x: unidecode(x.lower()))
 
         # Iterar a través de cada fila del dfFrame
         for index, row in df.loc[filtro].iterrows():
-            for palabra in lista_sin_acentos:
-                if palabra in row["message"]:
+            for palabra in lista_esp:
+                row_esp = " " + row["message_temp"] + " " # Agregar un espaciado al principio y final de cada mensaje
+                if palabra in row_esp:
                     df.at[index, "Otras Consultas"] = valor_asignar
+
+        # Eliminar la columna temporal 'message_temp'
+        df.drop(columns=['message_temp'], inplace=True)
+
     except Exception as e:
         print("Error buscar_palabras(): ",e)
