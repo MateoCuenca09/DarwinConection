@@ -128,19 +128,19 @@ def menu_Expensas(df):
         df.loc[filtro, 'Menu Principal'] = 'Expensas'
         df.loc[filtro, 'Menu Secundario'] = 'Expensa Corriente'
         
-            # Encuentra ID Expensas
+            # Encuentra Expensa Corriente
         filtro = (df['page'] == 'Archivo Expensa')
-        df.loc[filtro, 'Menu Principal'] = 'Expensas'
-        df.loc[filtro, 'Menu Secundario'] = 'Expensa Corriente'
+        df_expcorr = df.loc[filtro]
+        idChats_expcorr = df_expcorr['idChat']
+        filtro = (df['idChat'].isin(idChats_expcorr)) & (df['Menu Secundario'] == 'Expensa Corriente')
         df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
-        df.loc[filtro, 'user'] = df['room'] 
 
             # No encuentra y Deriva a asesor
         filtro = df['message'].str.startswith("No pudimos encontrar un ID de expensa con esos datos.")
-        df.loc[filtro, 'Menu Principal'] = 'Expensas'
-        df.loc[filtro, 'Menu Secundario'] = 'ID Expensas'
+        df_expcorNE = df.loc[filtro]
+        idChats_expcorrNE = df_expcorNE['idChat']
+        filtro = (df['idChat'].isin(idChats_expcorrNE)) & (df['Menu Secundario'] == 'Expensa Corriente') 
         df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
-        df.loc[filtro, 'user'] = df['room']
 
 
         ###### ACTUALIZAR CUPON ######
