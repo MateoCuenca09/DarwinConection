@@ -2,7 +2,7 @@ import pandas as pd
 import os
 from datetime import datetime, timedelta
 from unidecode import unidecode
-from MIguardar import guardar_historico
+from guardar import guardar_historico
 
 def mainPBI(datos):
     """
@@ -29,7 +29,7 @@ def mainPBI(datos):
     no_ingresan(df)
 
     #df = df[df['user'] != 'system'] # Mantener solo los mensajes de clientes
-    df = df.drop(['type','channel','darwinChatID','page','__v','intent','endpoint','typeClose'], axis=1) # Quitamos datos inecesarios
+    df = df.drop(['type','channel','darwinChatID','page','__v','intent','endpoint','typeClose','agent','tags'], axis=1) # Quitamos datos inecesarios
 
 
     guardar_historico(df)
@@ -415,7 +415,7 @@ def menu_OtrasConsultas(df):
 
                         ###### FILTRO PALABRAS ######
         # Especifica la ruta de tu archivo Excel con Palabras Clave 
-        archivo_excel ='C:/Users/cuenc/OneDrive - EDISUR SA/Mateo Cuenca/DarwinConection/.ignore/Excel Darwin - PBI - V3.xlsx'
+        archivo_excel ='O:/Gestion y Experiencia del Cliente/5. SERVICIO DE ATENCIÓN AL CLIENTE/11. TRANSFORMACIÓN DIGITAL/Excel - Otras Consultas/Excel Darwin - PBI - Automatico.xlsx'
         ""'O:/Gestion y Experiencia del Cliente/5. SERVICIO DE ATENCIÓN AL CLIENTE/11. TRANSFORMACIÓN DIGITAL/Excel - Otras Consultas/Excel Darwin - PBI - Automatico.xlsx'""
         ""'C:/Users/cuenc/OneDrive - EDISUR SA/Mateo Cuenca/DarwinConection/.ignore/Excel Darwin - PBI - V3.xlsx'""
 

@@ -3,6 +3,6 @@
 test.ipynb
 test.xlsx
 src/prueba.ipynb
-src/prueba.xlsx
+src/pruebas.py
 src/Miguardar.py
-src/_pycache_/
+src/__pycache__/
