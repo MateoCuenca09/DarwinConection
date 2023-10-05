@@ -631,7 +631,7 @@ def no_ingresan(df):
     try:
         df_ingresan = df.loc[df['Menu Principal'].notnull()]
         id_ingresan = df_ingresan['idChat']
-        filtro = ~df['idChat'].isin(id_ingresan)
+        filtro = (~df['idChat'].isin(id_ingresan)) & (df['message'] == 'Te estuve esperando... Si querés seguir chateando, volvé a escribirme "hola". Si no escribime de nuevo cuando quieras.')
         df.loc[filtro, 'Menu Principal'] = 'Abandonan'
         df.loc[filtro, 'Menu Secundario'] = 'Abandonan'
         df.loc[filtro, 'Menu Terciario'] = 'Abandonan'
