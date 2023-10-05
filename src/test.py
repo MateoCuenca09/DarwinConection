@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from PBI_funtions import mainPBI
 
-days = 30 # Dias para atras que se quiere analizar
+days = 75 # Dias para atras que se quiere analizar
 
 # Obtener la fecha actual
 endDate = datetime.now().strftime("%Y/%m/%d")
