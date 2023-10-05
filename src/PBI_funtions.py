@@ -1,8 +1,8 @@
 import pandas as pd
-import os
 from datetime import datetime, timedelta
 from unidecode import unidecode
-from guardar import guardar_historico
+from guardar import guardar, archivo_excel
+
 
 def mainPBI(datos):
     """
@@ -28,11 +28,11 @@ def mainPBI(datos):
     perdidos(df)
     no_ingresan(df)
 
-    #df = df[df['user'] != 'system'] # Mantener solo los mensajes de clientes
-    df = df.drop(['type','channel','darwinChatID','page','__v','intent','endpoint','typeClose','agent','tags'], axis=1) # Quitamos datos inecesarios
+    columnas = ['_id','user','date','message', 'room', 'idChat', 'Menu Principal', 'Menu Secundario', 'Menu Terciario', 'Otras Consultas', 'Reclamo', 'Encuesta']
+    df = df[columnas]
 
 
-    guardar_historico(df)
+    guardar(df)
 
 
 def Feedback(df):
@@ -414,11 +414,6 @@ def menu_OtrasConsultas(df):
         df.loc[filtro, 'Menu Terciario'] = 'Abandonan'    
 
                         ###### FILTRO PALABRAS ######
-        # Especifica la ruta de tu archivo Excel con Palabras Clave 
-        archivo_excel ='O:/Gestion y Experiencia del Cliente/5. SERVICIO DE ATENCIÓN AL CLIENTE/11. TRANSFORMACIÓN DIGITAL/Excel - Otras Consultas/Excel Darwin - PBI - Automatico.xlsx'
-        ""'O:/Gestion y Experiencia del Cliente/5. SERVICIO DE ATENCIÓN AL CLIENTE/11. TRANSFORMACIÓN DIGITAL/Excel - Otras Consultas/Excel Darwin - PBI - Automatico.xlsx'""
-        ""'C:/Users/cuenc/OneDrive - EDISUR SA/Mateo Cuenca/DarwinConection/.ignore/Excel Darwin - PBI - V3.xlsx'""
-
         # Lee todas las hojas del archivo Excel en un diccionario de DataFrames
         dataframes_por_hoja = pd.read_excel(archivo_excel, sheet_name=None, engine='openpyxl')
         # Itera a través de las hojas
@@ -428,10 +423,8 @@ def menu_OtrasConsultas(df):
                 buscar_palabras(df, primera_columna, hoja) 
                 print(f'Hoja: {hoja}') # Hojas detectadas
 
-
-
     except Exception as e:
-        print("Error levantar palabras menu_OtrasConsultas()")
+        print("Error levantar palabras menu_OtrasConsultas() ",e)
 
         filtro = (df['page'] == 'Menu Otras Consultas') & (df['user'] != 'system')
         df_otrasconsultas = df.loc[filtro]

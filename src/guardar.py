@@ -1,49 +1,63 @@
 import pandas as pd
-import os
 
+archivo_excel = 'O:/Gestion y Experiencia del Cliente/5. SERVICIO DE ATENCIÓN AL CLIENTE/11. TRANSFORMACIÓN DIGITAL/Excel - Otras Consultas/Excel Darwin - PBI - Automatico.xlsx' 
+activo_path = "O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\ReportesDarwin\\Activo.xlsx"
+temp_path = "O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\ReportesDarwin\\Datos\\Temp.xlsx"
+folder_temp_path = "O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\ReportesDarwin\\Datos\\"
 
-def separar_por_mes(dataframe):
+def guardar(df):
     try:
-        # Obtener la columna del mes
-        dataframe['Mes'] = dataframe['date'].dt.strftime('%Y-%m')
+        guardar_archivo(df,activo_path)
+        separar_dos_meses()
+        separar_por_mes()
+    except Exception as e:
+        print("Error guardar(): ",e)
 
-        # Obtener los dos meses más nuevos o actuales
-        meses_actuales = dataframe['Mes'].nlargest(2)
+def separar_dos_meses():
+    try:        
+        df = pd.read_excel(activo_path)
+        fecha_reciente = pd.to_datetime(df['date'].max())
+        delta_tiempo = 60 # Tiempo en dias que se quiere acumular en el Excel historico
+        fecha_antigua = fecha_reciente - pd.to_timedelta(delta_tiempo, unit='D')
 
-        # Filtrar el DataFrame para obtener solo los dos meses más nuevos o actuales
-        df_meses_actuales = dataframe[dataframe['Mes'].isin(meses_actuales)].copy()
+        df_activo = df.loc[df['date']>= fecha_antigua]
+        df_dump = df.loc[df['date']<= fecha_antigua]
+        guardar_archivo(df_dump,temp_path)
+        df_activo.to_excel(activo_path, index = False)
 
-        # Guardar cada DataFrame separado por mes en un archivo Excel
-        for mes, df_mes in df_meses_actuales.groupby('Mes'):
-            nombre_archivo = mes + '.xlsx'
-            carpeta_guardado = "O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\ReportesDarwin\\PBI"
-            ruta_archivo = os.path.join(carpeta_guardado, nombre_archivo)
-            df_mes.to_excel(ruta_archivo, index=False)
-            print(f"El DataFrame para el mes {mes} ha sido guardado en {nombre_archivo}")
 
-        df_meses_actuales.drop('Mes', axis=1, inplace=True)
+    except Exception as e:
+        print("Error separar_dos_meses(): ",e)
 
-        return df_meses_actuales
+
+def guardar_archivo(df,path):
+    try:
+        df_existente = pd.read_excel(path)
+        df_nuevo = pd.concat([df, df_existente], ignore_index=True)
+        df_nuevo = df_nuevo.drop_duplicates(ignore_index=True, keep='last', subset='_id')
+        df_nuevo.to_excel(path, index = False)
+    except FileNotFoundError:
+        print("Creando nuevo archivo, ",path)
+        df.to_excel(path, index = False)
+    except Exception as e:
+        print("Error al guardar_archivo()")
+        print("Archivo: ",path)
+        print("Error: ",e)
+
+
+
+def separar_por_mes():
+    try:
+        df_dump = pd.read_excel(temp_path)
+        df_dump['date_temp'] = df_dump['date']
+        df_dump['date_temp'] = pd.to_datetime(df_dump['date_temp'])
+        df_dump['date_temp'] = df_dump['date_temp'].dt.strftime('%Y-%m')
+        meses = df_dump['date_temp'].unique()
+        for mes in meses:
+            df_mes = df_dump.loc[df_dump['date_temp'] == mes]
+            df_mes = df_mes.drop('date_temp', axis=1)
+            archivo_path = folder_temp_path + mes + ".xlsx"
+            guardar_archivo(df_mes, archivo_path)
+
     except Exception as e:
         print("Error separar_por_mes(): ", e)
-
-def guardar_historico(df):
-    try:
-        df_historico = pd.read_excel("O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\ReportesDarwin\\PBI\\Historico.xlsx")
-        historico = True
-    except FileNotFoundError as e:
-        historico = False
-        print("No se encuentra Excel Historico")
-        print("Procede a crear uno nuevo vacio")
-        df_historico = pd.DataFrame()
-
-    try:
-        df_historico_nuevo = pd.concat([df_historico, df], ignore_index=True)
-        if historico:
-            df_historico_nuevo['date'] = pd.to_datetime(df_historico_nuevo['date'])
-            df_historico_nuevo = df_historico_nuevo.sort_values('date')  # Agregamos 'inplace=True' para aplicar el orden directamente
-            df_historico_nuevo = df_historico_nuevo.drop_duplicates(ignore_index=True, keep='first', subset='_id')
-            separar_por_mes(df_historico_nuevo)  # Cambiamos esta línea para llamar a la función sin asignación
-        df_historico_nuevo.to_excel("O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\ReportesDarwin\\PBI\\Historico.xlsx", index=False)
-    except Exception as e:
-        print("Error al indexar DF o guardar: ", e)
