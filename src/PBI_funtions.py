@@ -400,7 +400,7 @@ def menu_OtrasConsultas(df):
     """
     try:
                         ###### MENU OTRAS CONSULTAS ###### 
-        filtro = (df['page'] == 'Menu Otras Consultas') & (df['user'] != 'system')
+        filtro = (df['page'] == 'Menu Otras Consultas') & (df['user'] != 'system') # filtro
         df_otrasconsultas = df.loc[filtro]
         idChats_otrasconsultas = df_otrasconsultas['idChat']
         df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
@@ -422,6 +422,11 @@ def menu_OtrasConsultas(df):
                 primera_columna = dataframe.iloc[1:, 1].to_numpy()  # Selecciona la segunda columna
                 buscar_palabras(df, primera_columna, hoja) 
                 print(f'Hoja: {hoja}') # Hojas detectadas
+        
+        # Inclasificables
+        filtro_inclasificables(df)
+
+        
 
     except Exception as e:
         print("Error levantar palabras menu_OtrasConsultas() ",e)
@@ -678,6 +683,17 @@ def buscar_palabras(df, palabras_clave, valor_asignar):
 
     except Exception as e:
         print("Error buscar_palabras(): ",e)
+
+def filtro_inclasificables(df):
+    try:
+        filtro = (df['page'] == 'Menu Otras Consultas') & (df['user'] != 'system') #Filtro mnje otras consultas
+        df['cont_message_temp'] = df.loc[filtro, 'message'].str.split().apply(len) # Creo copia temporal
+
+        filtro = (df['cont_message_temp'] <= 2) & (df['Otras Consultas'].isnull())
+        df.loc[filtro, 'Otras Consultas'] = '(INCLASIFICABLES)'
+
+    except Exception as e:
+        print("Error filtro_inclasificables: ", e)
 
 
 def menu_OtrasConsultasERROR(df,idChats_otrasconsultas):

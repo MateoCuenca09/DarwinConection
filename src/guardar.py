@@ -1,5 +1,6 @@
 import pandas as pd
 
+# Especifica la ruta de tu archivo Excel con Palabras Clave 
 archivo_excel = 'O:/Gestion y Experiencia del Cliente/5. SERVICIO DE ATENCIÓN AL CLIENTE/11. TRANSFORMACIÓN DIGITAL/Excel - Otras Consultas/Excel Darwin - PBI - Automatico.xlsx' 
 activo_path = "O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\ReportesDarwin\\Datos\\Activo.xlsx"
 temp_path = "O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\ReportesDarwin\\Datos\\Temp.xlsx"
