@@ -1,7 +1,7 @@
 # Darwin Conection
 
 Esta librería Python es parte esencial de un emocionante proyecto que simplifica la gestión y el análisis del flujo de clientes en el menú de Darwin.
-El proyecto automatiza la descarga de una base de datos, calcula métricas cruciales y almacena los resultados en un archivo histórico.xlsx.
+El proyecto automatiza la descarga de una base de datos, calcula métricas cruciales y almacena los resultados en un archivo Excel.
 Lo mejor de todo es que este proceso se ejecuta de forma automática todos los días.
 
 ## Tabla de Contenidos
