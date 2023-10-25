@@ -24,7 +24,7 @@ def main():
         endDate = datetime.now().strftime("%Y/%m/%d")
 
         # Obtener la fecha de 3 días atrás
-        startDate = (datetime.now() - timedelta(days=3)).strftime("%Y/%m/%d")
+        startDate = (datetime.now() - timedelta(days=2)).strftime("%Y/%m/%d")
 
         # Inicializar pedido API
         headers = {
