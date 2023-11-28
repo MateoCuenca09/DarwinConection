@@ -14,29 +14,56 @@ def main():
     - Empty
     """
     try:
-        # URL de la API que deseas conectar
-        url_api = "https://api.botdarwin.com/data/conversations"
-
-        # Token de autenticación requerido por la API
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOiJlZGlzdXIiLCJyb3V0ZXMiOlsiL2FnZW50cyIsIi9pbnRlbnRzIiwiL2RhdGEiXSwiaWF0IjoxNjg5Nzk1MDk1fQ.Iv4iye5d0uLJz2kTOu9GoEFGGtQGtGCyh-tn0EGCbP8"
+        days = 2 # Dias para atras que se quiere analizar
 
         # Obtener la fecha actual
         endDate = datetime.now().strftime("%Y/%m/%d")
-
         # Obtener la fecha de 3 días atrás
-        startDate = (datetime.now() - timedelta(days=2)).strftime("%Y/%m/%d")
+        startDate = (datetime.now() - timedelta(days)).strftime("%Y/%m/%d")
+        #startDate = '2023/08/01'
 
-        # Inicializar pedido API
-        headers = {
-            "Authorization": f"Bearer {token}"
+
+
+        # URL y datos de inicio de sesión
+        login_url = "https://api.botdarwin.com/login"
+        login_data = {
+            "username": "federico.caminal",
+            "password": "ZuB947ZB!*Rk7_bAmR9!pE6YqHvATZ.."
         }
-        params = {
-            "startDate": startDate,
-            "endDate": endDate
-        }
-        response = requests.get(url_api, headers=headers, params=params)
-        response.raise_for_status()
-        datos = response.json()
+
+        # Realizar la solicitud de inicio de sesión
+        response = requests.post(login_url, json=login_data)
+
+        # Verificar si la solicitud fue exitosa (código de estado 200)
+        if response.status_code == 200:
+            # Extraer el token de la respuesta JSON
+            token = response.json().get("idToken")
+
+            # Utilizar el token para hacer la siguiente solicitud
+            conversation_url = "https://api.botdarwin.com/data/conversations"
+            headers = {
+                "darwinclientname": "edisur",
+                "Authorization": f"Bearer {token}"
+            }
+
+            # Parámetros de la consulta
+            params = {
+                "startDate": startDate,
+                "endDate": endDate
+            }
+
+            # Realizar la solicitud con el token
+            response_conversations = requests.get(conversation_url, headers=headers, params=params)
+
+            # Verificar si la solicitud fue exitosa (código de estado 200)
+            if response_conversations.status_code == 200:
+                # Procesar la respuesta JSON de las conversaciones
+                datos = response_conversations.json()
+            else:
+                print(f"Error en la solicitud de conversaciones: {response_conversations.status_code}")
+        else:
+            print(f"Error en el inicio de sesión: {response.status_code}")
+
         print("Descarga exitosa!")
         # Inicializa mainPBI
         mainPBI(datos)
