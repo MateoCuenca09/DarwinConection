@@ -9,8 +9,8 @@ folder_temp_path = "O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCI
 def guardar(df):
     try:
         guardar_archivo(df,activo_path)
-        separar_dos_meses()
-        separar_por_mes()
+        # separar_dos_meses()
+        # separar_por_mes()
     except Exception as e:
         print("Error guardar(): ",e)
 
