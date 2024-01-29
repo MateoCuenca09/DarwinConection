@@ -25,7 +25,6 @@ Para instalar este proyecto, primero conseguimos el proyecto descargandolo de la
 # Descargar el proyecto
 git clone https://github.com/MateoCuenca09/DarwinConection.git
 cd MateoCuenca09
-npm install
 # Instalar las dependencias
 pip install pandas, datatime, unidecode, schedule, time, requests
 ```
