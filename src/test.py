@@ -2,6 +2,13 @@ from datetime import datetime, timedelta
 import requests
 import pandas as pd
 from PBI_funtions import mainPBI
+import os
+from dotenv import load_dotenv
+# Cargamos variables privadas
+load_dotenv()
+
+login_url = os.getenv("login_url")
+login_data = os.getenv("login_data")
 
 days = 30 # Dias para atras que se quiere analizar
 
@@ -10,15 +17,6 @@ endDate = datetime.now().strftime("%Y/%m/%d")
 # Obtener la fecha de 3 días atrás
 startDate = (datetime.now() - timedelta(days)).strftime("%Y/%m/%d")
 #startDate = '2023/08/01'
-
-
-
-# URL y datos de inicio de sesión
-login_url = "https://api.botdarwin.com/login"
-login_data = {
-    "username": "federico.caminal",
-    "password": "ZuB947ZB!*Rk7_bAmR9!pE6YqHvATZ.."
-}
 
 # Realizar la solicitud de inicio de sesión
 response = requests.post(login_url, json=login_data)
