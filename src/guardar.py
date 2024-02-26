@@ -1,10 +1,14 @@
 import pandas as pd
+import os
+from dotenv import load_dotenv
+# Cargamos variables privadas
+load_dotenv()
 
 # Especifica la ruta de tu archivo Excel con Palabras Clave 
-archivo_excel = 'O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\Excel - Otras Consultas\\Excel Darwin - PBI - Automatico.xlsx' 
-activo_path = "O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\ReportesDarwin\\Datos\\Activo.csv"
-temp_path = "O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\ReportesDarwin\\Datos\\Temp.xlsx"
-folder_temp_path = "O:\\Gestion y Experiencia del Cliente\\5. SERVICIO DE ATENCIÓN AL CLIENTE\\11. TRANSFORMACIÓN DIGITAL\\ReportesDarwin\\Datos\\"
+archivo_excel = os.getenv("archivo_excel") 
+activo_path = os.getenv("activo_path")
+temp_path = os.getenv("temp_path")
+folder_temp_path = os.getenv("folder_temp_path") 
 
 def guardar(df):
     try:
