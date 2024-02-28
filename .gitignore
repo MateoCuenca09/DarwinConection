@@ -6,3 +6,5 @@ src/prueba.ipynb
 src/pruebas.py
 src/Miguardar.py
 src/__pycache__/
+.vscode/
+src/.env

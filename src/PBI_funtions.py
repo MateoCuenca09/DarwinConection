@@ -28,8 +28,8 @@ def mainPBI(datos):
     perdidos(df)
     no_ingresan(df)
 
-    columnas = ['_id','user','date','message', 'room', 'idChat', 'Menu Principal', 'Menu Secundario', 'Menu Terciario', 'Otras Consultas', 'Reclamo', 'Encuesta']
-    df = df[columnas]
+    #columnas = ['_id','user','date','message', 'room', 'idChat', 'Menu Principal', 'Menu Secundario', 'Menu Terciario', 'Otras Consultas', 'Reclamo', 'Encuesta']
+    #df = df[columnas]
 
 
     guardar(df)
@@ -70,7 +70,6 @@ def menu_Principal(df):
     - df: Dataframe con todos los datos 
     """
     try:
-
         ###### EXPENSAS ######
         filtro = (df['page'] == 'Menu Principal - A1') & (df['message'] == '1')
         df.loc[filtro, 'Menu Principal'] = 'Expensas'
@@ -262,7 +261,7 @@ def menu_Obras(df):
 
 
         ###### Derivados ######
-        filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta.")
+        filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor")
         df_derivados = df.loc[filtro]
         idChats = df_derivados['idChat']
         filtro = (df['Menu Principal'] == 'Obras') & (df['Menu Secundario'].notnull()) & (df['idChat'].isin(idChats)) & (df['Menu Terciario'].isnull())
@@ -400,7 +399,7 @@ def menu_OtrasConsultas(df):
     """
     try:
                         ###### MENU OTRAS CONSULTAS ###### 
-        filtro = (df['page'] == 'Menu Otras Consultas') & (df['user'] != 'system') # filtro
+        filtro = (df['page'] == 'Consulta o reclamo') & (df['user'] != 'system') # filtro
         df_otrasconsultas = df.loc[filtro]
         idChats_otrasconsultas = df_otrasconsultas['idChat']
         df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
@@ -411,7 +410,12 @@ def menu_OtrasConsultas(df):
         filtro = (df['page'] == 'Menu Principal - A1') & (df['message'] == '7') & (~df['idChat'].isin(idChats_otrasconsultas))
         df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
         df.loc[filtro, 'Menu Secundario'] = 'Abandonan'
-        df.loc[filtro, 'Menu Terciario'] = 'Abandonan'    
+        df.loc[filtro, 'Menu Terciario'] = 'Abandonan' 
+
+    except Exception as e:
+        print("Error menu_OtrasConsultas(): ", e)   
+    
+    try:
 
                         ###### FILTRO PALABRAS ######
         # Lee todas las hojas del archivo Excel en un diccionario de DataFrames
@@ -430,13 +434,6 @@ def menu_OtrasConsultas(df):
 
     except Exception as e:
         print("Error levantar palabras menu_OtrasConsultas() ",e)
-
-        filtro = (df['page'] == 'Menu Otras Consultas') & (df['user'] != 'system')
-        df_otrasconsultas = df.loc[filtro]
-        idChats_otrasconsultas = df_otrasconsultas['idChat']
-        df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
-        df.loc[filtro, 'Menu Secundario'] = 'Derivados Bot'
-        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
 
         menu_OtrasConsultasERROR(df,idChats_otrasconsultas) # Si falla el levantar palaras hacemos menu_OtrasConsultas anterior
           
@@ -570,6 +567,13 @@ def perdidos(df):
     - df: Dataframe con todos los datos 
     """
     try:
+        ### fuera del horario de atencion
+        filtro = (df['page'] == 'End Session') & (df['agent'] == 'derivacion')
+        df.loc[filtro, 'Menu Principal'] = 'Derivados Error'
+        df.loc[filtro, 'Menu Secundario'] = 'Derivados Error'
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Error'
+
+
         # Envian mal 3 mensajes seguidos
         # Todos los que derivan
         filtro = df['message'].str.endswith("¡No te preocupes! Te derivo con un asesor…")
@@ -945,9 +949,4 @@ def menu_OtrasConsultasERROR(df,idChats_otrasconsultas):
         valor_asignar = 'Administración'
         buscar_palabras(df, key_admini, valor_asignar)
 
-        ###### ABANDONAN ######
-        filtro = (df['page'] == 'Menu Principal - A1') & (df['message'] == '7') & (~df['idChat'].isin(idChats_otrasconsultas))
-        df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
-        df.loc[filtro, 'Menu Secundario'] = 'Abandonan'
-        df.loc[filtro, 'Menu Terciario'] = 'Abandonan'
 

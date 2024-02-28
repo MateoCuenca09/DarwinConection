@@ -9,7 +9,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 login_url = os.getenv("login_url")
-login_data = os.getenv("login_data")
+username = os.getenv("username_f")
+password = os.getenv("password")
+login_data = {
+    "username": username,
+    "password": password
+}
 
 
 def main():

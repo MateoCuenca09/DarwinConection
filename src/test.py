@@ -14,7 +14,6 @@ login_data = {
     "username": username,
     "password": password
 }
-print(login_data)
 days = 3 # Dias para atras que se quiere analizar
 
 # Obtener la fecha actual
@@ -58,7 +57,6 @@ else:
 
 print("Descarga exitosa!")
 # Inicializa mainPBI
-#mainPBI(datos)
-df = pd.DataFrame(datos)
-df.to_csv('crudo.csv', encoding='utf-8-sig', index=False)
+mainPBI(datos)
+
 
