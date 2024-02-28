@@ -8,9 +8,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 login_url = os.getenv("login_url")
-login_data = os.getenv("login_data")
-
-days = 30 # Dias para atras que se quiere analizar
+username = os.getenv("username_f")
+password = os.getenv("password")
+login_data = {
+    "username": username,
+    "password": password
+}
+print(login_data)
+days = 3 # Dias para atras que se quiere analizar
 
 # Obtener la fecha actual
 endDate = datetime.now().strftime("%Y/%m/%d")
@@ -53,6 +58,7 @@ else:
 
 print("Descarga exitosa!")
 # Inicializa mainPBI
-mainPBI(datos)
-
+#mainPBI(datos)
+df = pd.DataFrame(datos)
+df.to_csv('crudo.csv', encoding='utf-8-sig', index=False)
 
