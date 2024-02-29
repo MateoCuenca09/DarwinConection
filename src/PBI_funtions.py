@@ -663,7 +663,7 @@ def buscar_palabras(df, palabras_clave, valor_asignar):
     """
     try:
         # Filtro
-        filtro = (df['page'] == 'Menu Otras Consultas') & (df['user'] != 'system')
+        filtro = (df['page'] == 'Consulta o reclamo') & (df['user'] != 'system')
 
         # Crear una copia temporal de la columna 'message' para aplicar las modificaciones
         df['message_temp'] = df.loc[filtro, 'message'].apply(lambda x: unidecode(x.lower()).replace('.', ' ').replace(',', ' ').replace(';', ' '))
