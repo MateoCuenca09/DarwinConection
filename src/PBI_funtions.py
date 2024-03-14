@@ -58,8 +58,9 @@ def menu_Secundario(df):
     menu_Expensas(df)
     menu_Obras(df)
     menu_Cesiones(df)
-    menu_Contactos(df)
     menu_Servicios(df)
+    menu_Contactos(df)
+    menu_ventas(df)
     menu_OtrasConsultas(df)
 
 def menu_Principal(df): 
@@ -93,10 +94,6 @@ def menu_Principal(df):
         ###### VENTAS ######
         filtro = (df['page'] == 'Menu Principal - A1') & (df['message'] == '6')
         df.loc[filtro, 'Menu Principal'] = 'Ventas'
-        df.loc[filtro, 'Menu Secundario'] = 'Resueltos x Sistema'
-        df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
-
-
 
     except Exception as e:
         print("Error al procesar menuAcesos:", e)
@@ -388,6 +385,37 @@ def menu_Contactos(df):
         
     except Exception as e:
         print("Error menu_Contactos(): ",e)
+
+def menu_ventas(df):
+    """  """
+    try:
+        #### Comprar ####
+        filtro = (df['page'] == 'Ventas y Alquileres') & (df['message'] == '1')
+        df.loc[filtro, 'Menu Principal'] = 'Ventas'
+        df.loc[filtro, 'Menu Secundario'] = 'Comprar'  
+        df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
+
+        #### Alquilar ####
+        filtro = (df['page'] == 'Ventas y Alquileres') & (df['message'] == '2')
+        df.loc[filtro, 'Menu Principal'] = 'Ventas'
+        df.loc[filtro, 'Menu Secundario'] = 'Alquilar'  
+        df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'        
+
+        #### Ceder/Vender ####
+        filtro = (df['page'] == 'Ventas y Alquileres') & (df['message'] == '3')
+        df.loc[filtro, 'Menu Principal'] = 'Ventas'
+        df.loc[filtro, 'Menu Secundario'] = 'Ceder/Vender'  
+        df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'            
+
+        #### Volver ####
+        filtro = (df['page'] == 'Ventas y Alquileres') & (df['message'] == '0')
+        df.loc[filtro, 'Menu Principal'] = 'Ventas'
+        df.loc[filtro, 'Menu Secundario'] = 'Volver'  
+        df.loc[filtro, 'Menu Terciario'] = 'Volver'   
+
+
+    except Exception as e:
+        print("Error menu_ventas: ", e)
 
 def menu_OtrasConsultas(df):
     """
