@@ -60,7 +60,7 @@ def menu_Secundario(df):
     menu_Cesiones(df)
     menu_Servicios(df)
     menu_Contactos(df)
-    menu_ventas(df)
+    menu_Ventas(df)
     menu_OtrasConsultas(df)
 
 def menu_Principal(df): 
@@ -119,6 +119,9 @@ def menu_Expensas(df):
         df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
         df.loc[filtro, 'user'] = df['room']
 
+            # No Encuentra ID Expensas
+        # Derivados Expensas #
+
         ######  EXPENSA CORRIENTE ######
         filtro = (df['page'] == 'Menu Expensas') & (df['message'] == '2')
         df.loc[filtro, 'Menu Principal'] = 'Expensas'
@@ -143,18 +146,20 @@ def menu_Expensas(df):
         filtro = (df['page'] == 'Menu Expensas') & (df['message'] == '3')
         df.loc[filtro, 'Menu Principal'] = 'Expensas'
         df.loc[filtro, 'Menu Secundario'] = 'Actualizar Cupon'
-
+        # Derivados Expensas #
 
         ###### PLAN DE PAGOS ######
         filtro = (df['page'] == 'Menu Expensas') & (df['message'] == '4')
         df.loc[filtro, 'Menu Principal'] = 'Expensas'
         df.loc[filtro, 'Menu Secundario'] = 'Plan de Pagos'
+        # Derivados Expensas #
 
 
         ###### OTRAS CONSULTAS ######
         filtro = (df['page'] == 'Menu Expensas') & (df['message'] == '5')
         df.loc[filtro, 'Menu Principal'] = 'Expensas'
         df.loc[filtro, 'Menu Secundario'] = 'Otras Consultas'
+        # Derivados Expensas #
         
 
         ###### DEBITO AUTOMATICO ######
@@ -169,7 +174,7 @@ def menu_Expensas(df):
         df.loc[filtro, 'Menu Secundario'] = 'Volver'
         df.loc[filtro, 'Menu Terciario'] = 'Volver'
 
-        ###### Derivados ######
+        ###### Derivados Expensas ######
         filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta.")
         df_derivados = df.loc[filtro]
         idChats = df_derivados['idChat']
@@ -188,6 +193,7 @@ def menu_Obras(df):
     - df: Dataframe con todos los datos 
     """
     try:
+        # 1 #
         ###### INSTRUCTIVO DE OBRA ######
         filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '1')
         df.loc[filtro, 'Menu Principal'] = 'Obras'
@@ -199,41 +205,29 @@ def menu_Obras(df):
         df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
         df.loc[filtro, 'user'] = df['room']
             # Resuelto x Sistema V2
-        filtro = df['message'].str.startswith("Para acceder al Instructivo de obra")
+        filtro = df['message'].str.startswith("Acá te envío el link para que puedas acceder al instructivo de obra para tu emprendimento")
         df.loc[filtro, 'Menu Principal'] = 'Obras'
         df.loc[filtro, 'Menu Secundario'] = 'Instructivo de obra'
         df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
         df.loc[filtro, 'user'] = df['room']
 
-
-
-
+        # 2 #
         ###### FIRMA DE BOLETO ######
         filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '2')
         df.loc[filtro, 'Menu Principal'] = 'Obras'
         df.loc[filtro, 'Menu Secundario'] = 'Firma de boleto'
+        # Derivados Obras #
 
-
-        ###### FIRMA DE POSESION ######
+        # 3 #
+        ###### AMOJONADO ######
         filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '3')
         df.loc[filtro, 'Menu Principal'] = 'Obras'
-        df.loc[filtro, 'Menu Secundario'] = 'Firma de posesión'
-
-
-        ###### AMOJONADO ######
-        filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '4')
-        df.loc[filtro, 'Menu Principal'] = 'Obras'
         df.loc[filtro, 'Menu Secundario'] = 'Amojonado'
+        # Derivados Obras #
 
-
-        ###### TAREAS PREVIAS ######
-        filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '5')
-        df.loc[filtro, 'Menu Principal'] = 'Obras'
-        df.loc[filtro, 'Menu Secundario'] = 'Tareas previas'
-
-
+        # 4 # 
         ###### REGISTRAR OBRA NUEVA ######
-        filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '6')
+        filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '4')
         df.loc[filtro, 'Menu Principal'] = 'Obras'
         df.loc[filtro, 'Menu Secundario'] = 'Registrar obra nueva'
         # Resuelto x Sistema
@@ -243,12 +237,26 @@ def menu_Obras(df):
         df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
         df.loc[filtro, 'user'] = df['room']
 
+        # 5 #
+        ###### CONEXION DE LUZ ######
+        filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '5')
+        df.loc[filtro, 'Menu Principal'] = 'Obras'
+        df.loc[filtro, 'Menu Secundario'] = 'Conexion de Luz'
+        # Derivados Obras #
 
+        # 6 # 
+        ###### ESTADO DE SERVICIOS ######
+        filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '4')
+        df.loc[filtro, 'Menu Principal'] = 'Obras'
+        df.loc[filtro, 'Menu Secundario'] = 'Estado de servicios'
+        # Derivados Obras #
+
+        # 7 #
         ###### OTRAS CONSULTAS ######
         filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '7')
         df.loc[filtro, 'Menu Principal'] = 'Obras'
         df.loc[filtro, 'Menu Secundario'] = 'Otras consultas'
-
+        # Derivados Obras #
 
         ###### VOLVER ######
         filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '0')
@@ -257,8 +265,8 @@ def menu_Obras(df):
         df.loc[filtro, 'Menu Terciario'] = 'Volver'  
 
 
-        ###### Derivados ######
-        filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor")
+        ###### Derivados Obras ######
+        filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta")
         df_derivados = df.loc[filtro]
         idChats = df_derivados['idChat']
         filtro = (df['Menu Principal'] == 'Obras') & (df['Menu Secundario'].notnull()) & (df['idChat'].isin(idChats)) & (df['Menu Terciario'].isnull())
@@ -280,7 +288,7 @@ def menu_Cesiones(df):
         df.loc[filtro, 'Menu Principal'] = 'Cesiones'
         df.loc[filtro, 'Menu Secundario'] = 'Ceder'
         # Derivado
-        filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta.")
+        filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta")
         df_derivados = df.loc[filtro]
         idChats = df_derivados['idChat']
         filtro =(df['idChat'].isin(idChats)) & (df['Menu Principal'] == 'Cesiones') & (df['Menu Secundario'] == 'Ceder') & (df['Menu Terciario'].isnull())
@@ -386,7 +394,7 @@ def menu_Contactos(df):
     except Exception as e:
         print("Error menu_Contactos(): ",e)
 
-def menu_ventas(df):
+def menu_Ventas(df):
     """  """
     try:
         #### Comprar ####
@@ -463,7 +471,6 @@ def menu_OtrasConsultas(df):
     except Exception as e:
         print("Error levantar palabras menu_OtrasConsultas() ",e)
 
-        menu_OtrasConsultasERROR(df,idChats_otrasconsultas) # Si falla el levantar palaras hacemos menu_OtrasConsultas anterior
           
         
 
@@ -488,37 +495,30 @@ def reclamo(df):
 
         # Respuestas Enviadas
         ### SI
-        filtro = (df['page'] == 'Encuesta 2 - B1') & (df['message'] == 'Si')
-        df_idChats = df.loc[filtro]
-        idchats = df_idChats['idChat']
-        filtro1 = (df['idChat'].isin(idchats)) & (df['Menu Terciario'].notnull()) 
-        df.loc[filtro1, 'Reclamo'] = 'Si' 
-
-        filtro = (df['page'] == 'Encuesta 2 - B1') & (df['message'] == 'si')
+        filtro = (df['page'] == 'Encuesta 2 - B1') & (df['intent'] == 'opcion-si')
         df_idChats = df.loc[filtro]
         idchats = df_idChats['idChat']
         filtro1 = (df['idChat'].isin(idchats)) & (df['Menu Terciario'].notnull()) 
         df.loc[filtro1, 'Reclamo'] = 'Si' 
 
         ### NO
-        filtro = (df['page'] == 'Encuesta 2 - B1') & (df['message'] == 'No')
-        df_idChats = df.loc[filtro]
-        idchats = df_idChats['idChat']
-        filtro1 = (df['idChat'].isin(idchats)) & (df['Menu Terciario'].notnull()) 
-        df.loc[filtro1, 'Reclamo'] = 'No' 
-
-        filtro = (df['page'] == 'Encuesta 2 - B1') & (df['message'] == 'no')
+        filtro = (df['page'] == 'Encuesta 2 - B1') & (df['intent'] == 'opcion-no')
         df_idChats = df.loc[filtro]
         idchats = df_idChats['idChat']
         filtro1 = (df['idChat'].isin(idchats)) & (df['Menu Terciario'].notnull()) 
         df.loc[filtro1, 'Reclamo'] = 'No' 
 
         # Encuestas Incompletas
+        """ 
+        Aca se marcan por adelantado la gente que realizo el feedback positivo de reclamo
+        por lo tanto deberian pasar a la encuesta para calificar, si abandonan o no responden bien, quedaran marcados como
+        Encuesta Incompleta 
+        """
         filtro = df['message'] == '¿Tu reclamo o consulta fue resuelto? Si No'
         df_idchats_reclamo = df.loc[filtro]
         idchats_reclamo = df_idchats_reclamo['idChat']
         filtro = (df['idChat'].isin(idchats_reclamo)) & (df['Reclamo'] == 'Si')
-        df.loc[filtro,'Encuesta'] = 'Encuesta Incompleta'
+        df.loc[filtro,'Encuesta'] = 'Encuesta Incompleta' 
         
 
     except Exception as e:
@@ -560,31 +560,9 @@ def encuesta(df):
         filtro1 = (df['idChat'].isin(idchats)) & (df['Reclamo'].notnull())
         df.loc[filtro1, 'Encuesta'] = 'Muy Insatisfecha/o'
 
-        #encuesta_Incompleta(df)
-
     except Exception as e:
         print("Error encuesta(): ",e)
 
-
-def encuesta_Incompleta(df):
-    """
-    Función encuesta_Incompleta que procesa todos los clientes que les consultamos  y no respondieron 
-    guardandolos en el dataframe.
-
-    Parámetros:
-    - df: Dataframe con todos los datos 
-    """
-    try:
-                # No Responden Reclamo
-        filtro = (df['Menu Principal'] == 'Feedback') & (df['Encuesta'].isnull()) & (df['Reclamo'].isnull())
-        df.loc[filtro,'Reclamo'] = 'Encuesta Incompleta'
-
-                # No responden Encuesta Gestion
-        filtro = (df['Menu Principal'] == 'Feedback') & (df['Encuesta'].isnull()) & (df['Reclamo'] == 'Si')
-        df.loc[filtro,'Encuesta'] = 'Encuesta Incompleta'
-
-    except Exception as e:
-        print("Error encuesta_Incompleta(): ",e)
 
 def perdidos(df):
     """
@@ -722,259 +700,8 @@ def filtro_inclasificables(df):
         df['cont_message_temp'] = df.loc[filtro, 'message'].str.split().apply(len) # Creo copia temporal
 
         filtro = (df['cont_message_temp'] <= 2) & (df['Otras Consultas'].isnull())
-        df.loc[filtro, 'Otras Consultas'] = '(INCLASIFICABLES)'
+        df.loc[filtro, 'Otras Consultas'] = '(INCLASIFICABLE)'
 
     except Exception as e:
         print("Error filtro_inclasificables: ", e)
-
-
-def menu_OtrasConsultasERROR(df,idChats_otrasconsultas):
-#### CLASIFICACION DE OTRAS CONSULTAS ####
-        # EXPENSAS
-        key_expensas = [
-            'abonar expensa',
-            'abonar las expensa',
-            'adeuda de expensa',
-            'aumento de expensas',
-            'autogestión',
-            'autogestion expensas',
-            'bajar las expensas',
-            'cobrar las expensas',
-            'cobrar expensas',
-            'código electronico',
-            'cupon',
-            'cupon de expensas',
-            'cupón de pago',
-            'descargar las expensas',
-            'deuda de expensas',
-            'desmalezado',
-            'expensas',
-            'expensa',
-            'expensas anteriores',
-            'Expensa corriente',
-            'expensa inactiva',
-            'expensa vigente',
-            'ID de expensa',
-            'ID expensa',
-            ' ID ',
-            'importe de expensas',
-            'inactiva',
-            'libre deuda de expensas',
-            'mercado pago',
-            'numero de ID',
-            'pagar expensas',
-            'pagar las expensas',
-            'pago electronico',
-            'pago mis cuentas',
-            'tema de expensas',
-            'última expensa',
-            'últimas expensas',
-            'vencimiento'
-        ]
-        valor_asignar = 'Expensas'
-
-        buscar_palabras(df, key_expensas, valor_asignar)
-
-        # INICIO OBRA - AMOJONADO
-        key_obras = [
-            'acta de replanteo',
-            'acta de tenencia',
-            'amojonar',
-            'amojonado',
-            'amojonamiento',
-            'avance de la obra',
-            'avance de obra',
-            'cercado el lote',
-            'cercar el lote',
-            'comenzar una obra',
-            'comienzo de obra',
-            'comienzo la obra',
-            'conexión de luz',
-            'conexión provisoria',
-            'iniciar la obra',
-            'iniciar obra',
-            'iniciar una obra',
-            'inicio de obra',
-            'instructivo de obra',
-            'legajo de obra',
-            'nomenclatura',
-            'tareas preliminares',
-            'tareas previas',
-            'acometida',
-            'acometida de luz',
-            'acometidas',
-            'alta de servicio',
-            'cloaca',
-            'cloacas',
-            'conexión de epec',
-            'conexión de la luz',
-            'conexión epec',
-            'conexiones',
-            'construir',
-            'ecogas',
-            'energía eléctrica',
-            'epec',
-            'firma',
-            'firma de boleto',
-            'gas natural',
-            'inicio obra',
-            'PCT',
-            'PIG',
-            'pilar',
-            'pilares',
-            'plano',
-            'planos',
-            'posesion',
-            'posesiones',
-            'pozo',
-            'pedir la luz',
-            'firmar',
-            'boleto de venta',
-            'preensamblado',
-            'ensamblado',
-            'lote esquina',
-            'doble frente',
-            'plancheta catastral',
-            'obra gas',
-            'normativa de edificacion',
-            'terminada la obra',
-            'conexión electrica',
-            'conexiones electricas',
-            'conectar la luz',
-            'factibilidad de gas',
-            'factibilidad',
-            'especies',
-            'permiso de obra',
-            'dimensiones del terreno',
-            'dimensiones del lote',
-            'colindantes',
-            'avance del servicio',
-            'energia electrica definitiva',
-            'cerramiento',
-            'obrador',
-            'baño quimico',
-            'acopio de materiales',
-            'anexo I y II',
-            'anexo i y ii ',
-            'certificado de amojonado',
-            'certificado de amojonamiento',
-            'conexión de servicio eléctrico',
-            'red electrica',
-        ]
-        valor_asignar = 'Inicio Obras'
-        buscar_palabras(df, key_obras, valor_asignar)
-
-        # CESION INMUEBLE
-        key_cesiones = [
-            'autorizacion de venta',
-            'autorizacion para ceder',
-            'cedente',
-            ' ceder',
-            'cesion',
-            'cesionario',
-            'cesiones',
-            'nuevo propietario',
-        ]
-        
-        valor_asignar = 'Cesiones'
-        buscar_palabras(df, key_cesiones, valor_asignar)
-
-        # SERVICIOS E IMPUESTOS
-        key_servicios = [
-            'cuenta de rentas',
-            'cuentas de rentas',
-            'impuesto municipal',
-            'impuestos municipales',
-            'inmobiliario municipal',
-            'impuesto de rentas',
-            'impuestos de rentas',
-            'impuesto municipal',
-            'impuestos municipales',
-            'numero de identificacion',
-            'rentas',
-            'uf aguas cordobesas',
-            'unidad de facturación',
-            'unidaddes de facturacion',
-        ]
-        valor_asignar = 'Servicios e Impuestos'
-        buscar_palabras(df, key_servicios, valor_asignar)
-
-        # CONTACTOS UTILES
-        key_contactos = [
-            'telefono del intendente'
-        ]
-        valor_asignar = 'Contactos Utiles'
-        buscar_palabras(df, key_contactos, valor_asignar)
-
-        # POSVENTA
-        key_posventa = [
-            'abertura',
-            'aire',
-            'aire acondicionado',
-            'balcón',
-            'caldera',
-            'calefacción',
-            'cocina',
-            'electrodomestico',
-            'electrodomesticos',
-            'fisura',
-            'horno',
-            'humedad',
-            'hundimiento',
-            'lámpara',
-            'lavarropas',
-            'llave',
-            'llave de paso',
-            'mancha',
-            'pared',
-            'pintura',
-            'portero',
-            'portero eléctrico',
-            'puerta',
-            'quemada',
-            'quemado',
-            'quemados',
-            'radiadores',
-            'rajadura',
-            'secador',
-            'solar',
-            'tanque',
-            'techo',
-            'timbre',
-            'velas',
-            'ventana',
-            'pileta de inspección',
-            'techo del balcón',
-            'roturas de durlock',
-            'problemas estructurales',
-            'durlock',
-            'cañeria',
-            'pierde',
-            'piso de arriba',
-            'lavatorio',
-            'muebles',
-            'artefactos',
-            'machimbre',
-            'cielorraso',
-            'galeria',
-            'cielo raso',
-            'actividades de visitas',
-            'visitar el inmueble',
-            'numeracion',
-        ]
-        valor_asignar = 'Posventa'
-        buscar_palabras(df, key_posventa, valor_asignar)
-
-        # Administracion
-        key_admini = [
-            'tarjeta de ingreso',
-            'reglamento de edificio',
-            'reserva de sum',
-            'alambrado perimetral',
-            'alambrado',
-            'asadores',
-        ]
-        valor_asignar = 'Administración'
-        buscar_palabras(df, key_admini, valor_asignar)
-
 
