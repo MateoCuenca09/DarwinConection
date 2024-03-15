@@ -436,15 +436,24 @@ def menu_OtrasConsultas(df):
     """
     try:
                         ###### MENU OTRAS CONSULTAS ###### 
+            # Derivados 
         filtro = (df['page'] == 'Consulta o reclamo') & (df['user'] != 'system') # filtro
         df_otrasconsultas = df.loc[filtro]
-        idChats_otrasconsultas = df_otrasconsultas['idChat']
+        idChats_otrasconsultas1 = df_otrasconsultas['idChat']
         df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
         df.loc[filtro, 'Menu Secundario'] = 'Derivados Bot'
         df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
 
+            # Respuesta automatica por nro de Caso
+        filtro = (df['page'] == 'CASO DERIVADO') & (df['user'] != 'system') # filtro
+        df_otrasconsultas = df.loc[filtro]
+        idChats_otrasconsultas2 = df_otrasconsultas['idChat']
+        df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
+        df.loc[filtro, 'Menu Secundario'] = 'Resueltos x Sistema'
+        df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
+
                         ###### ABANDONAN ######
-        filtro = (df['page'] == 'Menu Principal - A1') & (df['message'] == '7') & (~df['idChat'].isin(idChats_otrasconsultas))
+        filtro = (df['page'] == 'Menu Principal - A1') & (df['message'] == '7') & (~df['idChat'].isin(idChats_otrasconsultas1)) & (~df['idChat'].isin(idChats_otrasconsultas2))
         df.loc[filtro, 'Menu Principal'] = 'Otras Consultas'
         df.loc[filtro, 'Menu Secundario'] = 'Abandonan'
         df.loc[filtro, 'Menu Terciario'] = 'Abandonan' 
@@ -486,7 +495,7 @@ def reclamo(df):
     """
     try:
                 # Consultas Enviadas    
-        filtro = df['message'] == '¿Tu reclamo o consulta fue resuelto? Si No'
+        filtro = df['message'].str.startswith('¿Tu reclamo o consulta fue resuelto?')
         df_idchats_reclamo = df.loc[filtro]
         idchats_reclamo = df_idchats_reclamo['idChat']
         filtro = (df['idChat'].isin(idchats_reclamo)) & (df['Menu Terciario'].notnull())
@@ -518,7 +527,7 @@ def reclamo(df):
         filtro = df['message'] == '¿Tu reclamo o consulta fue resuelto? Si No'
         df_idchats_reclamo = df.loc[filtro]
         idchats_reclamo = df_idchats_reclamo['idChat']
-        filtro = (df['idChat'].isin(idchats_reclamo)) & (df['Reclamo'] == 'Si')
+        filtro = (df['Reclamo'] == 'Si')
         df.loc[filtro,'Encuesta'] = 'Encuesta Incompleta' 
         
 
@@ -574,12 +583,16 @@ def perdidos(df):
     - df: Dataframe con todos los datos 
     """
     try:
-        # Envian mal 3 mensajes seguidos
         # Todos los que derivan
-        filtro = df['message'].str.endswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta")
+        filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta")
         #df.loc[filtro,'user'] = df['room']
         df_idChats = df.loc[filtro]
         idChats_todos = df_idChats['idChat']
+        # Los que tienen el 3er Menu Completo
+        filtro = (df['idChat'].isin(idChats_todos)) & (df['Menu Terciario'].notnull()) 
+        df_idChats_completos3 = df[filtro]
+        idChats_completos3 = df_idChats_completos3['idChat']
+
         # Los que tienen el 3er Menu Vacio
         filtro = (df['idChat'].isin(idChats_todos)) & (df['Menu Secundario'].notnull()) & (df['Menu Terciario'].isnull()) 
         df.loc[filtro,'Menu Terciario'] = 'Derivados Error'
@@ -589,15 +602,15 @@ def perdidos(df):
         idChats_confundidos3 = df_idChats_confundidos3['idChat'] # 3ro
         df_idChats_sobra3 = df_idChats[~df_idChats['idChat'].isin(idChats_confundidos3)] # 2do = Todos - 3ro
         idChats_sobra3 = df_idChats_sobra3['idChat']
-        filtro = (df['idChat'].isin(idChats_sobra3)) & (df['Menu Principal'].notnull()) & (df['Menu Secundario'].isnull()) # Solo los que tienen 2do Vacio
+        filtro = (df['idChat'].isin(idChats_sobra3)) & (df['Menu Principal'].notnull()) & (df['Menu Secundario'].isnull()) & (df['Menu Terciario'].isnull())  # Solo los que tienen 2do Vacio
         df.loc[filtro,'Menu Secundario'] = 'Derivados Error'
         df.loc[filtro,'Menu Terciario'] = 'Derivados Error'
 
         df_idChats_confundidos2 = df[filtro] 
         idChats_confundidos2 = df_idChats_confundidos2['idChat'] # 2do Vacio
-        df_idChats_confundidos1 = df_idChats_sobra3[~df_idChats_sobra3['idChat'].isin(idChats_confundidos2)]
+        df_idChats_confundidos1 = df_idChats_sobra3[(~df_idChats_sobra3['idChat'].isin(idChats_confundidos2)) & (~df_idChats_sobra3['idChat'].isin(idChats_completos3))] # Los que sobraron del tercer menu vacio, menos los que sobraron en el segundo menu vacio, menos los que tenian 3 menus completos
         idChats_confundidos1 = df_idChats_confundidos1['idChat']
-        filtro = (df['idChat'].isin(idChats_confundidos1)) & (df['message'].str.endswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta"))
+        filtro = (df['idChat'].isin(idChats_confundidos1)) & (df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta"))
         #df.loc[filtro,'user'] = df['room']
         df.loc[filtro,'Menu Principal'] = 'Derivados Error'
         df.loc[filtro,'Menu Secundario'] = 'Derivados Error'
