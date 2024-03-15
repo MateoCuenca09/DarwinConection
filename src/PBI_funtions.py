@@ -25,6 +25,7 @@ def mainPBI(datos):
     menu_Principal(df)
     menu_Secundario(df)
     Feedback(df)
+    fuera_de_horario(df)
     perdidos(df)
     no_ingresan(df)
 
@@ -573,17 +574,10 @@ def perdidos(df):
     - df: Dataframe con todos los datos 
     """
     try:
-        ### fuera del horario de atencion
-        filtro = (df['page'] == 'End Session') & (df['agent'] == 'derivacion')
-        df.loc[filtro, 'Menu Principal'] = 'Derivados Error'
-        df.loc[filtro, 'Menu Secundario'] = 'Derivados Error'
-        df.loc[filtro, 'Menu Terciario'] = 'Derivados Error'
-
-
         # Envian mal 3 mensajes seguidos
         # Todos los que derivan
-        filtro = df['message'].str.endswith("¡No te preocupes! Te derivo con un asesor…")
-        df.loc[filtro,'user'] = df['room']
+        filtro = df['message'].str.endswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta")
+        #df.loc[filtro,'user'] = df['room']
         df_idChats = df.loc[filtro]
         idChats_todos = df_idChats['idChat']
         # Los que tienen el 3er Menu Vacio
@@ -603,8 +597,8 @@ def perdidos(df):
         idChats_confundidos2 = df_idChats_confundidos2['idChat'] # 2do Vacio
         df_idChats_confundidos1 = df_idChats_sobra3[~df_idChats_sobra3['idChat'].isin(idChats_confundidos2)]
         idChats_confundidos1 = df_idChats_confundidos1['idChat']
-        filtro = (df['idChat'].isin(idChats_confundidos1)) & (df['message'].str.endswith("¡No te preocupes! Te derivo con un asesor…"))
-        df.loc[filtro,'user'] = df['room']
+        filtro = (df['idChat'].isin(idChats_confundidos1)) & (df['message'].str.endswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta"))
+        #df.loc[filtro,'user'] = df['room']
         df.loc[filtro,'Menu Principal'] = 'Derivados Error'
         df.loc[filtro,'Menu Secundario'] = 'Derivados Error'
         df.loc[filtro,'Menu Terciario'] = 'Derivados Error'
@@ -705,3 +699,37 @@ def filtro_inclasificables(df):
     except Exception as e:
         print("Error filtro_inclasificables: ", e)
 
+def fuera_de_horario(df):
+    """ 
+    Esta funcion se encarga de encontrar y clasificar los usuarios que, luego de recorrer el menu, y a la hora de derivarlos a
+    un ascesor, se encuentran fuera de horario, por lo tanto no son atendidos...
+    """
+    try:
+        filtro = (df['page'] == 'End Session') & (df['agent'] == 'derivacion')
+        df_fh = df.loc[filtro]
+        idChats_todos = df_fh['idChat']
+            # Los que tienen el 3er Menu Vacio
+        filtro = (df['idChat'].isin(idChats_todos)) & (df['Menu Secundario'].notnull()) & (df['Menu Terciario'].isnull()) 
+        df.loc[filtro,'Menu Terciario'] = 'Fuera de Horario'
+
+        # Los que tienen el 2do Menu Vacio
+        df_idChats_confundidos3 = df[filtro]
+        idChats_confundidos3 = df_idChats_confundidos3['idChat'] # 3ro
+        df_idChats_sobra3 = df_fh[~df_fh['idChat'].isin(idChats_confundidos3)] # 2do = Todos - 3ro
+        idChats_sobra3 = df_idChats_sobra3['idChat']
+        filtro = (df['idChat'].isin(idChats_sobra3)) & (df['Menu Principal'].notnull()) & (df['Menu Secundario'].isnull()) # Solo los que tienen 2do Vacio
+        df.loc[filtro,'Menu Secundario'] = 'Fuera de Horario'
+        df.loc[filtro,'Menu Terciario'] = 'Fuera de Horario'
+
+        df_idChats_confundidos2 = df[filtro] 
+        idChats_confundidos2 = df_idChats_confundidos2['idChat'] # 2do Vacio
+        df_idChats_confundidos1 = df_idChats_sobra3[~df_idChats_sobra3['idChat'].isin(idChats_confundidos2)]
+        idChats_confundidos1 = df_idChats_confundidos1['idChat']
+        filtro = (df['idChat'].isin(idChats_confundidos1)) & (df['message'].str.startswith("En este momento no podemos atenderte. Nuestro horario de atención es"))
+        df.loc[filtro,'user'] = df['room']
+        df.loc[filtro,'Menu Principal'] = 'Fuera de Horario'
+        df.loc[filtro,'Menu Secundario'] = 'Fuera de Horario'
+        df.loc[filtro,'Menu Terciario'] = 'Fuera de Horario'
+
+    except Exception as e:
+        print('Error fuera_de_horario(): ', e )
