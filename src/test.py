@@ -9,12 +9,13 @@ load_dotenv()
 
 login_url = os.getenv("login_url")
 username = os.getenv("username_f")
-password = os.getenv("password")
+password = os.getenv("password_f")
 login_data = {
     "username": username,
     "password": password
 }
-days = 3 # Dias para atras que se quiere analizar
+print(login_data)
+days = 2 # Dias para atras que se quiere analizar
 
 # Obtener la fecha actual
 endDate = datetime.now().strftime("%Y/%m/%d")

@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from unidecode import unidecode
 from guardar import guardar, archivo_excel
+from ISharePoint import ISharePoint
 
 
 def mainPBI(datos):
@@ -13,7 +14,7 @@ def mainPBI(datos):
     """
     # Transformamos los datos a un DataFrame
     df = pd.DataFrame(datos)
-
+    df.to_excel("Crudo.xlsx", index= False)
     # Asegurémonos de que la columna 'date' sea de tipo datetime
     df['date'] = pd.to_datetime(df['date'])
 
@@ -468,6 +469,10 @@ def menu_OtrasConsultas(df):
 
     except Exception as e:
         print("Error menu_OtrasConsultas(): ", e)   
+
+    try:
+        ISharePoint.download_ExcelDarwin()
+    except Exception as e: print("Error al actualizar DarwinExcel ", e)
     
     try:
 
@@ -516,7 +521,7 @@ def reclamo(df):
         df.loc[filtro1,'Encuesta'] = 'Encuesta Incompleta' 
 
         ### NO
-        filtro = (df['page'] == 'Encuesta 2 - B1') & (df['intent'] == 'opcion-no')
+        filtro = (df['page'] == 'Encuesta 2 - B1') & (df['intent'] == 'opcion-no') & ((df['message'] == 'no') | (df['message'] == 'No'))
         df_idChats = df.loc[filtro]
         idchats = df_idChats['idChat']
         filtro1 = (df['idChat'].isin(idchats)) & (df['Reclamo'].notnull()) 
