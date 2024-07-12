@@ -15,7 +15,7 @@ login_data = {
     "password": password
 }
 print(login_data)
-days = 2 # Dias para atras que se quiere analizar
+days = 1 # Dias para atras que se quiere analizar
 
 # Obtener la fecha actual
 endDate = datetime.now().strftime("%Y/%m/%d")

@@ -1,9 +1,10 @@
 import pandas as pd
 from datetime import datetime, timedelta
 from unidecode import unidecode
-from guardar import guardar, archivo_excel
+from guardar import FileHandler
 from ISharePoint import ISharePoint
-
+from config import DEBUG
+archivo_excel = "src/docs/Excel Darwin - PBI - Automatico.xlsx"
 
 def mainPBI(datos):
     """
@@ -14,13 +15,17 @@ def mainPBI(datos):
     """
     # Transformamos los datos a un DataFrame
     df = pd.DataFrame(datos)
-    df.to_excel("Crudo.xlsx", index= False)
-    # Asegurémonos de que la columna 'date' sea de tipo datetime
-    df['date'] = pd.to_datetime(df['date'])
 
-    # Eliminar la zona horaria de la columna 'date'
-    df['date'] = df['date'].dt.tz_convert(None)
+    if DEBUG: df.to_excel("Crudo.xlsx", index= False)
 
+    """ try:
+        # Asegurémonos de que la columna 'date' sea de tipo datetime
+        df['date'] = pd.to_datetime(df['date'])
+
+        # Eliminar la zona horaria de la columna 'date'
+        df['date'] = df['date'].dt.tz_convert(None)
+        if DEBUG: df.to_excel("Date.xlsx", index= False)
+    except Exception as e:  """
 
     # Procesamos los datos segun importancia
     menu_Principal(df)
@@ -30,11 +35,11 @@ def mainPBI(datos):
     perdidos(df)
     no_ingresan(df)
 
-    #columnas = ['_id','user','date','message', 'room', 'idChat', 'Menu Principal', 'Menu Secundario', 'Menu Terciario', 'Otras Consultas', 'Reclamo', 'Encuesta']
-    #df = df[columnas]
+    columnas = ['_id','user','date','message', 'room', 'idChat', 'Menu Principal', 'Menu Secundario', 'Menu Terciario', 'Otras Consultas', 'Reclamo', 'Encuesta']
+    df = df[columnas]
 
-
-    guardar(df)
+    FileHandler().guardar_mes(df)
+    FileHandler().separar_por_mes(df)
 
 
 def Feedback(df):
@@ -471,7 +476,7 @@ def menu_OtrasConsultas(df):
         print("Error menu_OtrasConsultas(): ", e)   
 
     try:
-        ISharePoint.download_ExcelDarwin()
+        ISharePoint().download_ExcelDarwin()
     except Exception as e: print("Error al actualizar DarwinExcel ", e)
     
     try:
