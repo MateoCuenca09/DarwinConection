@@ -1,0 +1,2 @@
+## DEBUG
+DEBUG = True

@@ -1,0 +1,3 @@
+2024-05-23 18:57:52,526 - INFO - Comienza conexion con Darwin
+2024-05-23 18:57:52,528 - WARNING - Este es un ejemplo de algun error no critico
+2024-05-23 18:57:52,528 - INFO - Termina proceso de analisis de Darwin
