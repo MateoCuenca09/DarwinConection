@@ -1,6 +1,9 @@
-import datetime
+import datetime, os
 
 def obtener_fecha_hoy_ayer():
+    """  
+    :returns: ayer, hoy. Format "%Y/%m/%d"
+    """
     # Fecha de hoy
     fecha_hoy = datetime.datetime.now()
     fecha_hoy_formateada = fecha_hoy.strftime("%Y/%m/%d")
@@ -10,3 +13,7 @@ def obtener_fecha_hoy_ayer():
     fecha_ayer_formateada = fecha_ayer.strftime("%Y/%m/%d")
     
     return fecha_ayer_formateada, fecha_hoy_formateada
+
+
+if __name__ == '__main__':
+    pass

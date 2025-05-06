@@ -1,0 +1,2 @@
+CONEXION API = https://api.botdarwin.com/swagger/#/data/getDataFeedback
+APP = https://app.botdarwin.com/

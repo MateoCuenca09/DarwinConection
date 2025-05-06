@@ -1,7 +1,35 @@
+"""  
+Version: 1.0.0
+Solo se refactorizo el codigo
+"""
+import pandas as pd
+
+
 class Modelo_Darwin:
+    """  
+    Este modelo se encarga de clasificar un DF de conversaciones segun elecciones de la siguiente manera:
+    * Menu Principal
+    * Menu Secundario
+    * Menu Terciario
+    * Reclamo Anterior
+    * Feedback del bot
+    """
     def __init__(self, df):
         self.df = df
         pass
+
+    def main(self):
+        """  
+        Pipeline completo para procesar los datos
+        """
+        self.menu_principal()
+        self.menu_secundario()
+        self.feedback()
+        self.fuera_de_horario()
+        self.perdidos()
+        self.no_ingresan()
+
+        return self.df
 
     def menu_principal(self):
         """
@@ -43,12 +71,24 @@ class Modelo_Darwin:
         - df: Dataframe con todos los datos 
         """
         self._menu_Expensas()
-        self.menu_Obras()
-        self.menu_Cesiones()
-        self.menu_Servicios()
-        self.menu_Contactos()
-        self.menu_Ventas()
-        self.menu_OtrasConsultas()
+        self._menu_Obras()
+        self._menu_Cesiones()
+        self._menu_Servicios()
+        self._menu_Contactos()
+        self._menu_Ventas()
+        self._menu_OtrasConsultas()
+
+    def feedback(self):
+        pass
+
+    def fuera_de_horario(self):
+        pass
+
+    def perdidos(self):
+        pass
+
+    def no_ingresan(self):
+        pass
 
     def _menu_Expensas(self):
         """
@@ -136,3 +176,20 @@ class Modelo_Darwin:
         except Exception as e:
             raise Exception(f'Error menu_Expensas({e})')
 
+    def _menu_Obras(self):
+        pass
+
+    def _menu_Cesiones(self):
+        pass
+
+    def _menu_Servicios(self):
+        pass
+
+    def _menu_Contactos(self):
+        pass
+
+    def _menu_Ventas(self):
+        pass
+
+    def _menu_OtrasConsultas(self):
+        pass
