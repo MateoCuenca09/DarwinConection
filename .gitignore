@@ -4,3 +4,4 @@
 .venv/
 datos/
 src/.env
+src/__pycache__/
