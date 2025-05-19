@@ -16,9 +16,17 @@ class Clasificador:
         df_process = Modelo_Darwin(self.datos_df).main()
         return df_process
 
-    def correcion_zona_horaria(self):
-        self.datos_df["date"] = self.datos_df["date"].apply(self._convert_to_local_timezone)
-        self.datos_df["date"] = self.datos_df["date"].dt.tz_localize(None)
+    def correcion_zona_horaria(self, df = None):
+        """  
+        Corrector de Zona Horaria UTC-3 a UTC-0
+        :param df: DataFrame a corregir. Si no se pasa, se usa self.datos_df
+        """
+        if df is None:
+            df = self.datos_df
+        df["date"] = df["date"].apply(self._convert_to_local_timezone)
+        df["date"] = df["date"].dt.tz_localize(None)
+        self.datos_df = df
+        return df
 
     def _convert_to_local_timezone(self, date_str):
 

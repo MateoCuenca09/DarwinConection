@@ -193,3 +193,10 @@ class Modelo_Darwin:
 
     def _menu_OtrasConsultas(self):
         pass
+
+class MENSAJES_DARWIN:
+    """ 
+     Este modelo contiene los mensajes que se envian al cliente y los que envia el cliente al bot.
+    """
+    #DERIVADOS = {message:'Derivacion',user:'System'}
+    
