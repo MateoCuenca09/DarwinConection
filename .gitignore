@@ -1,5 +1,6 @@
 .ignore/
 *.gitignore
+.local/
 test.ipynb
 test.xlsx
 src/prueba.ipynb
