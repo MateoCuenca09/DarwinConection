@@ -4,7 +4,6 @@ from office365.sharepoint.client_context import ClientContext
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
 SITE = os.getenv('SITE_I') 
 USER = os.getenv('USER_I') 
 PASSWORD = os.getenv('PASSWORD_I') 
@@ -42,6 +41,10 @@ class ISharePoint():
     def upload_darwin(self, archivo: str): 
         return self._upload_file(self.get_file_name(archivo), DARWIN + "/Datos", self.get_file_content(archivo))
     
+    def upload_logger(self):
+        return self._upload_file('Avisos.txt', DARWIN + "/Datos", self.get_file_content('datos/Avisos.txt'))
+
+    
     def download_ExcelDarwin(self):
         file_name = "Excel Darwin - PBI - Automatico.xlsx"
         file_dir = "src/docs/"
@@ -51,4 +54,4 @@ class ISharePoint():
 
     
 if __name__ == '__main__':
-    ISharePoint().download_ExcelDarwin()
+    ISharePoint().upload_logger()

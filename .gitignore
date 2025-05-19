@@ -1,11 +1,6 @@
 .ignore/
 *.gitignore
 .local/
-test.ipynb
-test.xlsx
-src/prueba.ipynb
-src/pruebas.py
-src/Miguardar.py
-src/__pycache__/
-.vscode/
+.venv/
+datos/
 src/.env

@@ -3,8 +3,16 @@ from datetime import datetime, timedelta
 from unidecode import unidecode
 from guardar import FileHandler
 from ISharePoint import ISharePoint
+import logging
 from config import DEBUG
-archivo_excel = "src/docs/Excel Darwin - PBI - Automatico.xlsx"
+import os
+from dotenv import load_dotenv
+# Cargamos variables privadas
+load_dotenv()
+archivo_excel =os.getenv('archivo_excel')
+log_format = '%(asctime)s, %(message)s'
+date_format = '%Y-%m-%d %H:%M:%S'
+logging.basicConfig(filename='datos/Avisos.txt', level=logging.INFO, format=log_format, datefmt=date_format)
 
 def mainPBI(datos):
     """
@@ -38,6 +46,7 @@ def mainPBI(datos):
     columnas = ['_id','user','date','message', 'room', 'idChat', 'Menu Principal', 'Menu Secundario', 'Menu Terciario', 'Otras Consultas', 'Reclamo', 'Encuesta']
     df = df[columnas]
 
+    if DEBUG: df.to_excel("Procesado.xlsx", index= False)
     FileHandler().guardar_mes(df)
     FileHandler().separar_por_mes(df)
 
@@ -103,7 +112,7 @@ def menu_Principal(df):
         df.loc[filtro, 'Menu Principal'] = 'Ventas'
 
     except Exception as e:
-        print("Error al procesar menuAcesos:", e)
+        logging.warn("Error al procesar Menus Principales", e)
 
 def menu_Expensas(df):
     """
@@ -119,7 +128,7 @@ def menu_Expensas(df):
         df.loc[filtro, 'Menu Secundario'] = 'ID Expensas'
 
             # Encuentra ID Expensas
-        filtro = df['message'].str.startswith("Tu ID de expensas es:")
+        filtro = df['message'].str.contains("Tu ID de expensas es:")
         df_idexp = df.loc[filtro]
         idChats_idexp = df_idexp['idChat']
         filtro = (df['idChat'].isin(idChats_idexp)) & (df['Menu Secundario'] == 'ID Expensas')
@@ -142,7 +151,7 @@ def menu_Expensas(df):
         df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
 
             # No encuentra y Deriva a asesor
-        filtro = df['message'].str.startswith("No pudimos encontrar un ID de expensa con esos datos.")
+        filtro = df['message'].str.contains("No pudimos encontrar un ID de expensa con esos datos.")
         df_expcorNE = df.loc[filtro]
         idChats_expcorrNE = df_expcorNE['idChat']
         filtro = (df['idChat'].isin(idChats_expcorrNE)) & (df['Menu Secundario'] == 'Expensa Corriente') 
@@ -158,7 +167,7 @@ def menu_Expensas(df):
         ###### PLAN DE PAGOS ######
         filtro = (df['page'] == 'Menu Expensas') & (df['message'] == '4')
         df.loc[filtro, 'Menu Principal'] = 'Expensas'
-        df.loc[filtro, 'Menu Secundario'] = 'Plan de Pagos'
+        df.loc[filtro, 'Menu Secundario'] = 'NO Plan de Pagos'
         # Derivados Expensas #
 
 
@@ -166,6 +175,7 @@ def menu_Expensas(df):
         filtro = (df['page'] == 'Menu Expensas') & (df['message'] == '5')
         df.loc[filtro, 'Menu Principal'] = 'Expensas'
         df.loc[filtro, 'Menu Secundario'] = 'Otras Consultas'
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
         # Derivados Expensas #
         
 
@@ -182,14 +192,14 @@ def menu_Expensas(df):
         df.loc[filtro, 'Menu Terciario'] = 'Volver'
 
         ###### Derivados Expensas ######
-        filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta.")
+        filtro = (df['message'].str.contains("derivacion")) 
         df_derivados = df.loc[filtro]
         idChats = df_derivados['idChat']
         filtro = (df['Menu Principal'] == 'Expensas') & (df['Menu Secundario'].notnull()) & (df['idChat'].isin(idChats)) & (df['Menu Terciario'].isnull())
         df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
         
     except Exception as e:
-        print("Error menu_Expensas(): ",e)
+        logging.warn(f'Error menu_Expensas() {e}')
 
 
 def menu_Obras(df):
@@ -206,13 +216,13 @@ def menu_Obras(df):
         df.loc[filtro, 'Menu Principal'] = 'Obras'
         df.loc[filtro, 'Menu Secundario'] = 'Instructivo de obra'
             # Resuelto x Sistema
-        filtro = df['message'].str.startswith("Acá te envío el link para que puedas acceder al instructivo de obra para tu emprendimento:")
+        filtro = df['message'].str.contains("Acá te envío el link para que puedas acceder al instructivo de obra para tu emprendimento:")
         df.loc[filtro, 'Menu Principal'] = 'Obras'
         df.loc[filtro, 'Menu Secundario'] = 'Instructivo de obra'
         df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
         df.loc[filtro, 'user'] = df['room']
             # Resuelto x Sistema V2
-        filtro = df['message'].str.startswith("Acá te envío el link para que puedas acceder al instructivo de obra para tu emprendimento")
+        filtro = df['message'].str.contains("Acá te envío el link para que puedas acceder al instructivo de obra para tu emprendimento")
         df.loc[filtro, 'Menu Principal'] = 'Obras'
         df.loc[filtro, 'Menu Secundario'] = 'Instructivo de obra'
         df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
@@ -238,7 +248,7 @@ def menu_Obras(df):
         df.loc[filtro, 'Menu Principal'] = 'Obras'
         df.loc[filtro, 'Menu Secundario'] = 'Registrar obra nueva'
         # Resuelto x Sistema
-        filtro = df['message'].str.startswith("Acá te envío el link para que puedas acceder al formulario de registro de legajo de obra:")
+        filtro = df['message'].str.contains("Acá te envío el link para que puedas acceder al formulario de registro de legajo de obra:")
         df.loc[filtro, 'Menu Principal'] = 'Obras'
         df.loc[filtro, 'Menu Secundario'] = 'Registrar obra nueva'
         df.loc[filtro, 'Menu Terciario'] = 'Resueltos x Sistema'
@@ -263,6 +273,8 @@ def menu_Obras(df):
         filtro = (df['page'] == 'Obras - Motivo de Contacto - D2') & (df['message'] == '7')
         df.loc[filtro, 'Menu Principal'] = 'Obras'
         df.loc[filtro, 'Menu Secundario'] = 'Otras consultas'
+        df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'      
+
         # Derivados Obras #
 
         ###### VOLVER ######
@@ -273,14 +285,14 @@ def menu_Obras(df):
 
 
         ###### Derivados Obras ######
-        filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta")
+        filtro = (df['message'].str.contains("derivacion"))
         df_derivados = df.loc[filtro]
         idChats = df_derivados['idChat']
         filtro = (df['Menu Principal'] == 'Obras') & (df['Menu Secundario'].notnull()) & (df['idChat'].isin(idChats)) & (df['Menu Terciario'].isnull())
         df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'      
 
     except Exception as e:
-        print("Error menu_Amojonado(): ",e)
+        logging.warn(f'Error menu_Amojonado() {e}')
 
 def menu_Cesiones(df):
     """
@@ -295,7 +307,7 @@ def menu_Cesiones(df):
         df.loc[filtro, 'Menu Principal'] = 'Cesiones'
         df.loc[filtro, 'Menu Secundario'] = 'Ceder'
         # Derivado
-        filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta")
+        filtro = (df['message'].str.contains("derivacion"))
         df_derivados = df.loc[filtro]
         idChats = df_derivados['idChat']
         filtro =(df['idChat'].isin(idChats)) & (df['Menu Principal'] == 'Cesiones') & (df['Menu Secundario'] == 'Ceder') & (df['Menu Terciario'].isnull())
@@ -316,7 +328,7 @@ def menu_Cesiones(df):
 
         
     except Exception as e:
-        print("Error menu_Cesiones(): ",e)
+        print(f'Error menu_Cesiones() {e}')
 
 def menu_Servicios(df):
     """
@@ -361,7 +373,7 @@ def menu_Servicios(df):
         df.loc[filtro, 'Menu Terciario'] = 'Volver'  
 
     except Exception as e:
-        print("Error menu_Servicios(): ",e)
+        logging.warn(f'Error menu_Servicios() {e}')
 
 def menu_Contactos(df):
     """
@@ -399,7 +411,7 @@ def menu_Contactos(df):
  
         
     except Exception as e:
-        print("Error menu_Contactos(): ",e)
+        logging.warn(f'Error menu_Contactos() {e}')
 
 def menu_Ventas(df):
     """  """
@@ -430,7 +442,7 @@ def menu_Ventas(df):
 
 
     except Exception as e:
-        print("Error menu_ventas: ", e)
+        logging.warn(f'Error menu_ventas: {e}')
 
 def menu_OtrasConsultas(df):
     """
@@ -473,11 +485,11 @@ def menu_OtrasConsultas(df):
         df.loc[filtro, 'Menu Terciario'] = 'Abandonan' 
 
     except Exception as e:
-        print("Error menu_OtrasConsultas(): ", e)   
+        logging.warn(f'Error menu_OtrasConsultas(): {e}')   
 
-    try:
-        ISharePoint().download_ExcelDarwin()
-    except Exception as e: print("Error al actualizar DarwinExcel ", e)
+#    try:
+#        ISharePoint().download_ExcelDarwin()
+#    except Exception as e: print("Error al actualizar DarwinExcel ", e)
     
     try:
 
@@ -497,7 +509,7 @@ def menu_OtrasConsultas(df):
         
 
     except Exception as e:
-        print("Error levantar palabras menu_OtrasConsultas() ",e)
+        logging.warn(f'Error en Filtro de Palabras de Otras Consultas {e}')
 
           
         
@@ -513,7 +525,7 @@ def reclamo(df):
     """
     try:
                 # Consultas Enviadas    
-        filtro = df['message'].str.startswith('¿Tu reclamo o consulta fue resuelto?')
+        filtro = df['message'].str.contains('¿Tu reclamo o consulta fue resuelto?')
         df.loc[filtro,'Reclamo'] = 'Encuesta Incompleta'
 
         # Respuestas Enviadas
@@ -538,7 +550,7 @@ def reclamo(df):
         por lo tanto deberian pasar a la encuesta para calificar, si abandonan o no responden bien, quedaran marcados como
         Encuesta Incompleta 
         """
-        filtro = df['message'].str.startswith('¿Tu reclamo o consulta fue resuelto?')
+        filtro = df['message'].str.contains('¿Tu reclamo o consulta fue resuelto?')
         df_idchats_reclamo = df.loc[filtro]
         idchats_reclamo = df_idchats_reclamo['idChat']
         filtro = (df['Reclamo'] == 'Si')
@@ -546,7 +558,7 @@ def reclamo(df):
         
 
     except Exception as e:
-            print("Error reclamo(): ",e)
+            logging.warn(f'Error en procesar reclamos {e}')
               
 def encuesta(df):
     """
@@ -585,7 +597,7 @@ def encuesta(df):
         df.loc[filtro1, 'Encuesta'] = 'Muy Insatisfecha/o'
 
     except Exception as e:
-        print("Error encuesta(): ",e)
+        logging.warn(f'Error en procesar encuestas {e}')
 
 
 def perdidos(df):
@@ -598,7 +610,7 @@ def perdidos(df):
     """
     try:
         # Todos los que derivan
-        filtro = df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta")
+        filtro = (df['message'].str.contains("derivacion",case=False, na=False)) & (df['user']!= 'system') 
         #df.loc[filtro,'user'] = df['room']
         df_idChats = df.loc[filtro]
         idChats_todos = df_idChats['idChat'] # idChats que recibieron el mensaje
@@ -608,7 +620,8 @@ def perdidos(df):
         idChats_completos3 = df_idChats_completos3['idChat'] # y aca en version lista
 
         # Los que tienen el 3er Menu Vacio
-        filtro = (df['idChat'].isin(idChats_todos)) & (df['Menu Secundario'].notnull()) & (df['Menu Terciario'].isnull()) # Si salieron de algun flujo y no le marcaron el tercer menu y fueron derivados, aca entran como derivados error
+        filtro = (df['idChat'].isin(idChats_todos)) & (df['Menu Secundario'].notnull()) & (df['Menu Terciario'].isnull()) 
+        # Si salieron de algun flujo y no le marcaron el tercer menu y fueron derivados, aca entran como derivados error
         df.loc[filtro,'Menu Terciario'] = 'Derivados Error'
 
         # Los que tienen el 2do Menu Vacio
@@ -624,7 +637,7 @@ def perdidos(df):
         idChats_confundidos2 = df_idChats_confundidos2['idChat'] # 2do Vacio
         df_idChats_confundidos1 = df_idChats_sobra3[(~df_idChats_sobra3['idChat'].isin(idChats_confundidos2)) & (~df_idChats_sobra3['idChat'].isin(idChats_completos3))] # Los que sobraron del tercer menu vacio, menos los que sobraron en el segundo menu vacio, menos los que tenian 3 menus completos
         idChats_confundidos1 = df_idChats_confundidos1['idChat']
-        filtro = (df['idChat'].isin(idChats_confundidos1)) & (df['message'].str.startswith("¡Gracias! Te voy a derivar con un asesor para que resuelva tu consulta"))
+        filtro = (df['idChat'].isin(idChats_confundidos1)) & ((df['message'].str.contains("deriva")) or (df['message'].str.contains("ejecutivo")))
         #df.loc[filtro,'user'] = df['room']
         df.loc[filtro,'Menu Principal'] = 'Derivados Error'
         df.loc[filtro,'Menu Secundario'] = 'Derivados Error'
@@ -654,7 +667,7 @@ def perdidos(df):
         df.loc[filtro, 'Menu Terciario'] = 'Abandonan'
 
     except Exception as e:
-        print('Error perdidos(): ',e)
+        logging.warn(f'Error en procesar perdidos {e}')
 
 def no_ingresan(df):
     """
@@ -675,7 +688,7 @@ def no_ingresan(df):
 
 
     except Exception as e:
-        print("Error no_ingresan(): ",e)
+        logging.warn(f'Error en procesar no_ingresan {e}')
 
 
 def buscar_palabras(df, palabras_clave, valor_asignar):
@@ -713,7 +726,7 @@ def buscar_palabras(df, palabras_clave, valor_asignar):
         df.drop(columns=['message_temp'], inplace=True)
 
     except Exception as e:
-        print("Error buscar_palabras(): ",e)
+        logging.warn(f'Error en buscar palabras de Otras Consultas {e}')
 
 def filtro_inclasificables(df):
     try:
@@ -724,7 +737,7 @@ def filtro_inclasificables(df):
         df.loc[filtro, 'Otras Consultas'] = '(INCLASIFICABLE)'
 
     except Exception as e:
-        print("Error filtro_inclasificables: ", e)
+        logging.warn(f'Error en filtro_inclasificables de palabras {e}')
 
 def fuera_de_horario(df):
     """ 
@@ -752,11 +765,11 @@ def fuera_de_horario(df):
         idChats_confundidos2 = df_idChats_confundidos2['idChat'] # 2do Vacio
         df_idChats_confundidos1 = df_idChats_sobra3[~df_idChats_sobra3['idChat'].isin(idChats_confundidos2)]
         idChats_confundidos1 = df_idChats_confundidos1['idChat']
-        filtro = (df['idChat'].isin(idChats_confundidos1)) & (df['message'].str.startswith("En este momento no podemos atenderte. Nuestro horario de atención es"))
+        filtro = (df['idChat'].isin(idChats_confundidos1)) & (df['message'].str.contains("En este momento no podemos atenderte. Nuestro horario de atención es"))
         df.loc[filtro,'user'] = df['room']
         df.loc[filtro,'Menu Principal'] = 'Fuera de Horario'
         df.loc[filtro,'Menu Secundario'] = 'Fuera de Horario'
         df.loc[filtro,'Menu Terciario'] = 'Fuera de Horario'
 
     except Exception as e:
-        print('Error fuera_de_horario(): ', e )
+        logging.warning(f'Error fuera_de_horario {e}')

@@ -18,21 +18,26 @@ login_data = {
 }
 
 # Configuramos el Logger
-logging.basicConfig(filename='Avisos.txt', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+log_format = '%(asctime)s, %(message)s'
+date_format = '%Y-%m-%d %H:%M:%S'
+logging.basicConfig(filename='datos/Avisos.txt', level=logging.INFO, format=log_format, datefmt=date_format)
 
 
 class DConnection:
 
     def main(self):
+        logging.info('Comienza conexion con Darwin')
         try:
-            datos = self._descarga(days=2)
+            datos = self._descarga(days=10)
         except Exception as e:
-            logging.warn("No se pueden procesar los datos nuevos.")
+            logging.warning("No se pueden procesar los datos nuevos.")
         else:
-            mainPBI(datos)
-        finally:
-            print("")
-            #subir logging al Sharepoint
+            try:
+                mainPBI(datos)
+                logging.info(f'Termina proceso exitosamente {datetime.now().strftime("%Y/%m/%d")}')
+            except Exception as e:
+                logging.info('Termina proceso con errores')
+
 
     def single_run(self, days):
         datos = self._descarga(days)
@@ -44,6 +49,9 @@ class DConnection:
             CONTRASEÑA : {password}
             URL : {login_url}
               """)
+        logging.info(f'User: {username}')
+        logging.info(f'User: {password}')
+        logging.info(f'User: {login_url}')
         
     def _descarga(self, days):
         try:
@@ -97,8 +105,8 @@ class DConnection:
         schedule.every().day.at('22:00').do(self.main)
         while True:
             schedule.run_pending()
-            time.sleep(1)
+            time.sleep(60)
 
 
 if __name__ == '__main__':
-    DConnection().single_run(60)
+    DConnection().main()
