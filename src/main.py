@@ -28,7 +28,7 @@ class DConnection:
     def main(self):
         logging.info('Comienza conexion con Darwin')
         try:
-            datos = self._descarga(days=10)
+            datos = self._descarga(days=1)
 
         except Exception as e:
             logging.warning("No se pueden procesar los datos nuevos.")

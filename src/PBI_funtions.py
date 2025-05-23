@@ -20,8 +20,6 @@ def mainPBI(df):
     - Datos: DF con datos de conversaciones
     """
 
-
-
     """ try:
         # Asegurémonos de que la columna 'date' sea de tipo datetime
         df['date'] = pd.to_datetime(df['date'])
@@ -104,7 +102,7 @@ def menu_Principal(df):
         df.loc[filtro, 'Menu Principal'] = 'Ventas'
 
     except Exception as e:
-        logging.warn("Error al procesar Menus Principales", e)
+        logging.warning("Error al procesar Menus Principales", e)
 
 def menu_Expensas(df):
     """
@@ -191,7 +189,7 @@ def menu_Expensas(df):
         df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'
         
     except Exception as e:
-        logging.warn(f'Error menu_Expensas() {e}')
+        logging.warning(f'Error menu_Expensas() {e}')
 
 
 def menu_Obras(df):
@@ -284,7 +282,7 @@ def menu_Obras(df):
         df.loc[filtro, 'Menu Terciario'] = 'Derivados Bot'      
 
     except Exception as e:
-        logging.warn(f'Error menu_Amojonado() {e}')
+        logging.warning(f'Error menu_Amojonado() {e}')
 
 def menu_Cesiones(df):
     """
@@ -365,7 +363,7 @@ def menu_Servicios(df):
         df.loc[filtro, 'Menu Terciario'] = 'Volver'  
 
     except Exception as e:
-        logging.warn(f'Error menu_Servicios() {e}')
+        logging.warning(f'Error menu_Servicios() {e}')
 
 def menu_Contactos(df):
     """
@@ -403,7 +401,7 @@ def menu_Contactos(df):
  
         
     except Exception as e:
-        logging.warn(f'Error menu_Contactos() {e}')
+        logging.warning(f'Error menu_Contactos() {e}')
 
 def menu_Ventas(df):
     """  """
@@ -434,7 +432,7 @@ def menu_Ventas(df):
 
 
     except Exception as e:
-        logging.warn(f'Error menu_ventas: {e}')
+        logging.warning(f'Error menu_ventas: {e}')
 
 def menu_OtrasConsultas(df):
     """
@@ -477,7 +475,7 @@ def menu_OtrasConsultas(df):
         df.loc[filtro, 'Menu Terciario'] = 'Abandonan' 
 
     except Exception as e:
-        logging.warn(f'Error menu_OtrasConsultas(): {e}')   
+        logging.warning(f'Error menu_OtrasConsultas(): {e}')   
 
 #    try:
 #        ISharePoint().download_ExcelDarwin()
@@ -501,11 +499,8 @@ def menu_OtrasConsultas(df):
         
 
     except Exception as e:
-        logging.warn(f'Error en Filtro de Palabras de Otras Consultas {e}')
-
-          
-        
-
+        logging.warning(f'Error en Filtro de Palabras de Otras Consultas {e}')
+        raise Exception(f'Error en Filtro de Palabras de Otras Consultas {e}')
 
 def reclamo(df):
     """
@@ -550,7 +545,7 @@ def reclamo(df):
         
 
     except Exception as e:
-            logging.warn(f'Error en procesar reclamos {e}')
+            logging.warning(f'Error en procesar reclamos {e}')
               
 def encuesta(df):
     """
@@ -589,8 +584,7 @@ def encuesta(df):
         df.loc[filtro1, 'Encuesta'] = 'Muy Insatisfecha/o'
 
     except Exception as e:
-        logging.warn(f'Error en procesar encuestas {e}')
-
+        logging.warning(f'Error en procesar encuestas {e}')
 
 def perdidos(df):
     """
@@ -629,7 +623,7 @@ def perdidos(df):
         idChats_confundidos2 = df_idChats_confundidos2['idChat'] # 2do Vacio
         df_idChats_confundidos1 = df_idChats_sobra3[(~df_idChats_sobra3['idChat'].isin(idChats_confundidos2)) & (~df_idChats_sobra3['idChat'].isin(idChats_completos3))] # Los que sobraron del tercer menu vacio, menos los que sobraron en el segundo menu vacio, menos los que tenian 3 menus completos
         idChats_confundidos1 = df_idChats_confundidos1['idChat']
-        filtro = (df['idChat'].isin(idChats_confundidos1)) & ((df['message'].str.contains("deriva")) or (df['message'].str.contains("ejecutivo")))
+        filtro = (df['idChat'].isin(idChats_confundidos1)) & ((df['message'].str.contains("deriva")) | (df['message'].str.contains("ejecutivo")))
         #df.loc[filtro,'user'] = df['room']
         df.loc[filtro,'Menu Principal'] = 'Derivados Error'
         df.loc[filtro,'Menu Secundario'] = 'Derivados Error'
@@ -659,7 +653,7 @@ def perdidos(df):
         df.loc[filtro, 'Menu Terciario'] = 'Abandonan'
 
     except Exception as e:
-        logging.warn(f'Error en procesar perdidos {e}')
+        logging.warning(f'Error en procesar perdidos {e}')
 
 def no_ingresan(df):
     """
@@ -680,8 +674,7 @@ def no_ingresan(df):
 
 
     except Exception as e:
-        logging.warn(f'Error en procesar no_ingresan {e}')
-
+        logging.warning(f'Error en procesar no_ingresan {e}')
 
 def buscar_palabras(df, palabras_clave, valor_asignar):
     """
@@ -718,7 +711,7 @@ def buscar_palabras(df, palabras_clave, valor_asignar):
         df.drop(columns=['message_temp'], inplace=True)
 
     except Exception as e:
-        logging.warn(f'Error en buscar palabras de Otras Consultas {e}')
+        logging.warning(f'Error en buscar palabras de Otras Consultas {e}')
 
 def filtro_inclasificables(df):
     try:
@@ -729,7 +722,7 @@ def filtro_inclasificables(df):
         df.loc[filtro, 'Otras Consultas'] = '(INCLASIFICABLE)'
 
     except Exception as e:
-        logging.warn(f'Error en filtro_inclasificables de palabras {e}')
+        logging.warning(f'Error en filtro_inclasificables de palabras {e}')
 
 def fuera_de_horario(df):
     """ 
