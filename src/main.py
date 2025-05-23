@@ -1,11 +1,11 @@
-import schedule
-import time
+import schedule, os, logging, time, requests
 from datetime import datetime, timedelta
-import requests
 from PBI_funtions import mainPBI
-import os
-import logging
+import pandas as pd
 from dotenv import load_dotenv
+from guardar import FileHandler
+from config import DEBUG
+
 # Cargamos variables privadas
 load_dotenv()
 
@@ -29,12 +29,27 @@ class DConnection:
         logging.info('Comienza conexion con Darwin')
         try:
             datos = self._descarga(days=10)
+
         except Exception as e:
             logging.warning("No se pueden procesar los datos nuevos.")
         else:
             try:
-                mainPBI(datos)
+                # Transformamos los datos a un DataFrame
+                df_crudo = pd.DataFrame(datos)
+                
+                if DEBUG: df_crudo.to_excel("temp/Crudo.xlsx", index= False)
+
+                df_proces = mainPBI(df_crudo)
+                
+                if DEBUG: df_proces.to_excel("temp/Procesado.xlsx", index= False)
+
+                FileHandler().guardar_mes(df_proces)
+                FileHandler().separar_por_mes(df_proces)
+
                 logging.info(f'Termina proceso exitosamente {datetime.now().strftime("%Y/%m/%d")}')
+
+
+
             except Exception as e:
                 logging.info('Termina proceso con errores')
 

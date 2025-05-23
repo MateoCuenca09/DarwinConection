@@ -2,6 +2,6 @@
 *.gitignore
 .local/
 .venv/
-datos/
+datos/*
 src/.env
 src/__pycache__/

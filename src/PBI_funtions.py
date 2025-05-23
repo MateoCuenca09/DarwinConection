@@ -1,10 +1,8 @@
 import pandas as pd
 from datetime import datetime, timedelta
 from unidecode import unidecode
-from guardar import FileHandler
 from ISharePoint import ISharePoint
 import logging
-from config import DEBUG
 import os
 from dotenv import load_dotenv
 # Cargamos variables privadas
@@ -14,17 +12,15 @@ log_format = '%(asctime)s, %(message)s'
 date_format = '%Y-%m-%d %H:%M:%S'
 logging.basicConfig(filename='datos/Avisos.txt', level=logging.INFO, format=log_format, datefmt=date_format)
 
-def mainPBI(datos):
+def mainPBI(df):
     """
     Función principal de PBI_functions que procesa y guarda en .xlsx los datos.
 
     Parámetros:
-    - Datos: Archivo .json con datos de conversaciones
+    - Datos: DF con datos de conversaciones
     """
-    # Transformamos los datos a un DataFrame
-    df = pd.DataFrame(datos)
 
-    if DEBUG: df.to_excel("Crudo.xlsx", index= False)
+
 
     """ try:
         # Asegurémonos de que la columna 'date' sea de tipo datetime
@@ -46,11 +42,7 @@ def mainPBI(datos):
     columnas = ['_id','user','date','message', 'room', 'idChat', 'Menu Principal', 'Menu Secundario', 'Menu Terciario', 'Otras Consultas', 'Reclamo', 'Encuesta']
     df = df[columnas]
 
-    if DEBUG: df.to_excel("Procesado.xlsx", index= False)
-    FileHandler().guardar_mes(df)
-    FileHandler().separar_por_mes(df)
-
-
+    return df
 def Feedback(df):
     """
     Función Feedback que hace procesar los datos de Feedback de manera secuencial y los guarda en el mismo df.
